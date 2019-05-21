@@ -1,0 +1,186 @@
+<!-- 	
+	Sample Integration: Interactive Sync mode
+ -->
+
+<IntegrationBlueprint Name='Interactive Sync' Version='1.0.0' SchemaVersion='2.0.0'>
+	<Integration>
+		<Title>Interactive Sync Example</Title>
+	</Integration>
+
+	<!--
+		Specify Interactive Sync mode.
+	-->
+
+	<Sync>
+		<Events Mode='interactive'/>
+		<Matching>
+			<!-- 
+				The CsvOverlay matching protocol is currently the only protocol
+				supported by Kimono. Refer to the documentation for deatils:
+				https://developer.kimonoplatform.com/docs/interactive-sync		
+				We will be expanding this area of the product in future releases. 
+			-->
+			<CsvOverlay>
+				<Property Name='title'>Schoology</Property>
+				<Property Name='location'>schoology</Property>
+			</CsvOverlay>
+		</Matching>
+	</Sync>
+
+	<!--
+		This template defines all topics with the Core Attributes defined by Kimono.
+		You can change the name of any attribute, create additional attributes, and
+		remove unwanted attributes to customize how data is presented for your
+		application API. In addition, most Integrations benefit from defining data
+		validation rules to prevent illegal data from reaching the application API.
+		
+		Refer to xxx for a description of the Integration Blueprint schema.
+	-->
+
+	<Topics>
+		<Topic Name='LEA'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='School'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+
+				<!-- 
+					The following rollups are also available but are not enabled by default.
+					This speeds up the performance of your Integration. The Orgs in which a
+					Student or Teacher is a member of can be determined from the Student.$orgs
+					and Teacher.$orgs rollups. If you need "both sides" of the person/org
+					membership relationship, uncomment one or both of these attributes.
+				-->
+				<!-- <Attribute Name='$teachers'/> -->
+				<!-- <Attribute Name='$students'/> -->
+
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Student'>
+			<Attributes>
+				<!-- Enable the PersonOrgMembership rollup. See the note at PersonOrgMembership below. -->
+				<Attribute Name='$orgs'/>
+
+				<!-- Enable the PersonSectionMembership rollup. See the note at PersonSectionMembership below. -->
+				<Attribute Name='$sections'/>
+
+				<Attribute Name='local_id'/>
+				<Attribute Name='state_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+				<Attribute Name='aup'/>
+				<Attribute Name='grad_year'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Teacher'>
+			<Attributes>
+				<!-- Enable the PersonOrgMembership rollup. See the note at PersonOrgMembership below. -->
+				<Attribute Name='$orgs'/>
+
+				<!-- Enable the PersonSectionMembership rollup. See the note at PersonSectionMembership below. -->
+				<Attribute Name='$sections'/>
+
+				<Attribute Name='local_id'/>
+				<Attribute Name='state_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+			</Attributes>
+		</Topic>
+
+		<!-- 
+			Note the Consumer role is disabled to prevent Data Events from being sent
+			when granular membership details change. Instead, the Person.$orgs rollup is 
+			enabled in the Student and Teacher mappings above. This means you will receive a Data
+			Event whenever these arrays change but will not receive individual PersonOrgMembership
+			events in your event stream. If you want to consume granular person/org membership 
+			as independent entities, remove the Person.$orgs mappings and set the Consumer role 
+			to "enabled" below.
+		-->
+	  	<Topic Name='PersonOrgMembership'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+
+		<Topic Name='Term'>
+			<Attributes>
+				<Attribute Name='name'/>
+				<Attribute Name='description'/>
+				<Attribute Name='start_date'/>
+				<Attribute Name='end_date'/>
+				<Attribute Name='status'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Course'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='title'/>
+				<Attribute Name='description'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Section'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='title'/>
+				<Attribute Name='description'/>
+				<Attribute Name='$terms'/>
+				<Attribute Name='$course'/>
+				<Attribute Name='$org'/>
+
+				<!-- 
+					The following rollups are also available but are not enabled by default.
+					This speeds up the performance of your Integration. The Sections in which a
+					Student or Teacher is a member of can be determined from the Student.$sections
+					and Teacher.$sections rollups. If you need "both sides" of the person/section 
+					membership relationship, uncomment one or both of these attributes.
+				-->
+				<!-- <Attribute Name='$teachers'/> -->
+				<!-- <Attribute Name='$students'/> -->
+
+			</Attributes>
+		</Topic>
+
+		<!-- 
+			Note the Consumer role is disabled to prevent Data Events from being sent
+			when granular membership details change. Instead, the Person.$sections rollup is 
+			enabled in the Student and Teacher mappings above. This means you will receive a Data
+			Event whenever these arrays change but will not receive the individual 
+			PersonSectionMembership entities in your event stream. If you want to consume granular
+			person/section membership as independent entities, remove the Person.$sections mappings 
+			and set the Consumer role to "enabled" below.
+		-->
+	  	<Topic Name='PersonSectionMembership'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+	  
+	</Topics>
+
+</IntegrationBlueprint>

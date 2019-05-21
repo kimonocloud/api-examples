@@ -1,0 +1,64 @@
+<!-- 	
+	Example Integration
+	
+	This is an example Kimono Integration Blueprint. It defines the properties of
+	an Integration named "example". Integration must have a unique name within
+	your account namespace. 
+ -->
+
+<Blueprint Id='example' Version='1.0'>
+
+	<Integration>
+		<Title>Example Integration</Title>
+	</Integration>
+
+	<!--
+	  	Application Configuration
+	 -->
+	<Application/>
+
+	<!--
+	  	Broker Configuration
+	 -->
+	<Broker/>
+
+	<!--
+	  	Object Configuration
+	 -->
+	<Objects>
+		<Student>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Student>
+
+		<Staff>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Staff>
+		
+		<Course>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Course>
+
+		<CourseSection>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</CourseSection>
+
+		<Term>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Term>
+	</Objects>
+</Blueprint>

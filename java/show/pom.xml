@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.kimonocloud</groupId>
+		<artifactId>examples</artifactId>
+		<version>2.0-SNAPSHOT</version>
+	</parent>
+
+ 	<artifactId>show</artifactId>
+ 	<name>Kimono API Example: Show</name>
+ 	<description>Show objects using Clever or Kimono APIs</description>
+ 	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.clever</groupId>
+			<artifactId>client</artifactId>
+			<version>1.0.1</version>
+			<scope>compile</scope>
+		</dependency>		
+		<dependency>
+			<groupId>com.kimonocloud</groupId>
+			<artifactId>kimono-api</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.kimonocloud</groupId>
+			<artifactId>api-oneroster</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>		
+ 	</dependencies>
+</project>

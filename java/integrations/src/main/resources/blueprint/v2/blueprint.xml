@@ -1,0 +1,65 @@
+<!-- 	
+	Example Integration
+	Version 2 
+	
+	This is an example Kimono Integration Blueprint. An Integration Blueprint is
+	a folder that contains a blueprint.xml file to define the properties of a specific
+	version of an Integration, along with potentially other resources.
+ -->
+
+<Blueprint Id='example' Version='2.0'>
+
+	<Integration>
+		<Title>Example Integration</Title>
+	</Integration>
+
+	<!--
+	  	Application Configuration
+	 -->
+	<Application/>
+
+	<!--
+	  	Broker Configuration
+	 -->
+	<Broker/>
+
+	<!--
+	  	Object Configuration
+	 -->
+	<Objects>
+		<Student>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Student>
+
+		<Staff>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Staff>
+		
+		<Course>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Course>
+
+		<CourseSection>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</CourseSection>
+
+		<Term>
+			<Roles>
+				<Subscriber />
+			</Roles>
+			<Attributes/>
+		</Term>
+	</Objects>
+</Blueprint>
