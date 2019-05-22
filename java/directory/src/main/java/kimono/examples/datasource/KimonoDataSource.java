@@ -137,13 +137,17 @@ public class KimonoDataSource implements DataSource {
 		OrgImpl o = new OrgImpl(org.get$Sys().getId());
 		o.setId(org.getLocalId());
 		o.setName(org.getName());
-		// TODO: This is not how we want to expose phone. We need access to root
-		// attrs!
+		
+		// This DirectoryExample recognizes three custom attributes for Org: $ext.phone, $ext.url,
+		// and $ext.address. These are not Core Attributes defined by Kimono but this illustrates 
+		// how to map custom attributes to an Integration. To ensure all data sources provided 
+		// these elements, you could create custom Mapping Packages that are installed for 
+		// OneRoster, SIF, etc.
+		
 		o.setPhone(DataUtils.asString(org.get$Ext(), "phone"));
 		o.setUrl(DataUtils.asString(org.get$Ext(), "url"));
-		// TODO: This is not how we want to expose address. We need access to
-		// root attrs!
 		o.setAddress(DataUtils.asString(org.get$Ext(), "address"));
+		
 		return o;
 	}
 	

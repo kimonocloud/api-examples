@@ -58,14 +58,14 @@ public class InMemoryDirectory implements Directory {
 	@Override
 	public void populate(DataSource source) {
 		Page firstPage = Page.firstPage();
-		populateDistrict(source);
+//		populateDistrict(source);
 		populateSchools(source,firstPage);
 		if( fSchools != null ) {
-			populateCourses(source,firstPage);
-			populateTerms(source,firstPage);
+//			populateCourses(source,firstPage);
+//			populateTerms(source,firstPage);
 			populateStudents(source,firstPage);
 			populateStaff(source,firstPage);
-			populateGradingCategories(source,firstPage);
+//			populateGradingCategories(source,firstPage);
 		}
 	}
 

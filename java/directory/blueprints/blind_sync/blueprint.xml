@@ -1,0 +1,107 @@
+<!-- 	
+	DirectoryExample configured for Blind Sync synchronization mode
+ -->
+
+<IntegrationBlueprint Name='DirectoryExample' Version='1.0.0' SchemaVersion='2.0.0'>
+	<Integration>
+		<Title>DirectoryExample</Title>
+	</Integration>
+
+	<!--
+		Specify Blind Sync mode.
+	-->
+
+	<Sync>
+		<Events Mode='blind'/>
+	</Sync>
+
+	<!--
+		This template defines all topics with the Core Attributes defined by Kimono.
+		To illustrate how to define custom mappings in an Integration Blueprint, this
+		example defines an attribute named "$ext.title" with the string that will be
+		displayed in the Directory. Note it is prefixed with "$ext." so that it is
+		accessible via OpenAPI generated clients. There is no requirement in Kimono
+		that you put custom attributes in this javascript object, but doing so makes
+		it easy to get at them from any OAS-generated language wrapper.
+	-->
+
+	<Topics>
+		<Topic Name='School'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$ext.title'>
+					<Mapping Type='expression'>$(name) ($(local_id))</Mapping>
+				</Attribute>
+
+				<!-- 
+					This example rolls up the Org.$teachers and Org.$students arrays
+					but not the Person.$orgs array.
+				-->
+				<Attribute Name='$teachers'/>
+				<Attribute Name='$students'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Student'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+				<Attribute Name='$ext.title'>
+					<Mapping Type='expression'>$(name.last), $(name.first) $(name.middle)</Mapping>
+				</Attribute>
+			</Attributes>
+		</Topic>
+
+		<!-- <Topic Name='Teacher'> -->
+		<Topic Name='Staff'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+				<Attribute Name='$ext.title'>
+					<Mapping Type='expression'>$(name.last), $(name.first) $(name.middle)</Mapping>
+				</Attribute>
+			</Attributes>
+		</Topic>
+
+		<!-- 
+			NOTE: This will not be required in a future release, but for now, you must tell
+			Kimono to subscribe to StudentSchoolMembership but to not Consume this topic. 
+			Otherwise, the data will not be available for the Org.$students rollup defined 
+			in the Student topic above.
+		-->
+	  	<!-- <Topic Name='StudentSchoolMembership'> -->
+	  	<Topic Name='StudentSchoolEnrollment'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+
+		<!-- 
+			NOTE: This will not be required in a future release, but for now, you must tell
+			Kimono to subscribe to TeacherSchoolMembership but to not Consume this topic. 
+			Otherwise, the data will not be available for the Org.$teachers rollup defined 
+			in the Teacher topic above.
+		-->
+		<!-- <Topic Name='TeacherSchoolMembership'> -->
+	  	<Topic Name='StaffSchoolEnrollment'> 
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+	  
+	</Topics>
+
+</IntegrationBlueprint>

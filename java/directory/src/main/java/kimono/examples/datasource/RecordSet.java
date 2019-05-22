@@ -1,6 +1,7 @@
 package kimono.examples.datasource;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import kimono.examples.model.DirObject;
 
@@ -12,10 +13,23 @@ import kimono.examples.model.DirObject;
 public class RecordSet<T extends DirObject> {
 
 	private Collection<T> fData;
-	private int fCount;
+	private Integer fCount;
 	private Page fPage;
-	
-	public RecordSet(Collection<T> data, Page page, int count) {
+
+	/**
+	 * Construct an empty record set
+	 */
+	public RecordSet() {
+		this(Collections.emptyList(), Page.firstPage(), null);
+	}
+
+	/**
+	 * Construct a RecordSet for a page of a collection
+	 * @param data The data in this page
+	 * @param page The page
+	 * @param count The total number of records available
+	 */
+	public RecordSet(Collection<T> data, Page page, Integer count) {
 		fData = data;
 		fCount = count;
 		fPage = page;
@@ -24,9 +38,13 @@ public class RecordSet<T extends DirObject> {
 	public Collection<T> getData() {
 		return fData;
 	}
+	
+	public boolean hasCount() {
+		return fCount != null;
+	}
 
 	public int getTotalAvailable() {
-		return fCount;
+		return fCount == null ? 0 : fCount;
 	}
 	
 	public Page getPage() {

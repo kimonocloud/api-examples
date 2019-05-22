@@ -29,4 +29,31 @@
     		<version>2.6</version>
 		</dependency>
  	</dependencies>
+ 	
+	 <build>
+	 	<plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <configuration>
+                	<assembleDirectory>target</assembleDirectory>
+                	<programs>
+                		<program>
+                			<mainClass>kimono.examples.DirectoryExample</mainClass>
+                			<name>directory</name>
+                		</program>
+                	</programs>
+                </configuration>
+                <executions>
+                	<execution>
+                		<phase>package</phase>
+                		<goals>
+                			<goal>assemble</goal>
+                		</goals>
+                	</execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+ 	
 </project>

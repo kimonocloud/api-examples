@@ -14,23 +14,23 @@ public class OrgImpl extends AbstractDirObject implements DirOrg {
 	
 	/**
 	 */
-	private RecordSet<DirTerm> fTerms;
+	private RecordSet<DirTerm> fTerms = new RecordSet<>();
 
 	/**
 	 */
-	private RecordSet<DirCourse> fCourses;
+	private RecordSet<DirCourse> fCourses = new RecordSet<>();
 
 	/**
 	 */
-	private RecordSet<DirPerson> fStudents;
+	private RecordSet<DirPerson> fStudents = new RecordSet<>();
 
 	/**
 	 */
-	private RecordSet<DirPerson> fStaff;
+	private RecordSet<DirPerson> fStaff = new RecordSet<>();
 
 	/**
 	 */
-	private RecordSet<DirGradingCategory> fGradingCategories;
+	private RecordSet<DirGradingCategory> fGradingCategories = new RecordSet<>();
 	
 	
 	public OrgImpl(UUID sourceId) {

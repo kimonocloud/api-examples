@@ -4,3 +4,4 @@
 **/.settings/**
 java/directory/directory**
 /js
+.DS_Store

@@ -40,7 +40,7 @@
                 	<assembleDirectory>target</assembleDirectory>
                 	<programs>
                 		<program>
-                			<mainClass>kimono.examples.show.Show</mainClass>
+                			<mainClass>kimono.examples.Show</mainClass>
                 			<name>show</name>
                 		</program>
                 	</programs>
