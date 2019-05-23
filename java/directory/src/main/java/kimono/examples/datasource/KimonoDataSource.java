@@ -11,6 +11,7 @@ import kimono.api.v2.interopdata.model.Course;
 import kimono.api.v2.interopdata.model.CoursesResponse;
 import kimono.api.v2.interopdata.model.Org;
 import kimono.api.v2.interopdata.model.OrgsResponse;
+import kimono.api.v2.interopdata.model.PagedDataResponseTypePaging;
 import kimono.api.v2.interopdata.model.Person;
 import kimono.api.v2.interopdata.model.PersonsResponse;
 import kimono.api.v2.interopdata.model.Term;
@@ -60,7 +61,7 @@ public class KimonoDataSource implements DataSource {
 			
 			// Return transformed as DirOrg objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
-					page,response.getPaging().getCount());
+					page,getRecordCount(response.getPaging()));
 		} catch (Exception ex) {
 			throw new KimonoApiException(ex);
 		}
@@ -74,7 +75,7 @@ public class KimonoDataSource implements DataSource {
 			
 			// Return transformed as DirPerson objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
-					page,response.getPaging().getCount());
+					page,getRecordCount(response.getPaging()));
 		} catch (Exception ex) {
 			throw new KimonoApiException(ex);
 		}
@@ -88,7 +89,7 @@ public class KimonoDataSource implements DataSource {
 			
 			// Return transformed as DirPerson objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
-					page,response.getPaging().getCount());
+					page,getRecordCount(response.getPaging()));
 		} catch (Exception ex) {
 			throw new KimonoApiException(ex);
 		}
@@ -102,7 +103,7 @@ public class KimonoDataSource implements DataSource {
 			
 			// Return transformed as DirTerm objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
-					page,response.getPaging().getCount());
+					page,getRecordCount(response.getPaging()));
 		} catch (Exception ex) {
 			throw new KimonoApiException(ex);
 		}
@@ -116,7 +117,7 @@ public class KimonoDataSource implements DataSource {
 			
 			// Return transformed as DirCourse objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
-					page,response.getPaging().getCount());
+					page,getRecordCount(response.getPaging()));
 		} catch (Exception ex) {
 			throw new KimonoApiException(ex);
 		}
@@ -187,5 +188,9 @@ public class KimonoDataSource implements DataSource {
 		CourseImpl c = new CourseImpl(course.get$Sys().getId());
 		c.setName(course.getTitle());
 		return c;
+	}
+	
+	protected int getRecordCount( PagedDataResponseTypePaging paging ) {
+		return 0;
 	}
 }
