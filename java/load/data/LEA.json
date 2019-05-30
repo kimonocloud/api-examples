@@ -1,0 +1,20 @@
+{
+    "data": [
+        { 
+            "domain": "RDM:LEA",
+            "objects": [
+                {
+                    "$sys": {
+                        "source_id": {
+                            "example": "org.lea.1"
+                        },
+                        "type": "Org",
+                        "org_type": "LEA"
+                    },
+                    "local_id": "1",
+                    "name": "LEA"
+                }
+            ]
+        }
+    ]
+}

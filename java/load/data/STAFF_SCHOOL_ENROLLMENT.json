@@ -1,0 +1,65 @@
+{
+    "data": [
+        { 
+            "domain": "RDM:STAFF_SCHOOL_ENROLLMENT",
+            "objects": [
+                {
+                    "$sys": {
+                        "source_id": {
+                            "example": "personorgmembership.teacher.school.1"
+                        },
+                        "type": "PersonOrgMembership",
+                        "person_type": "Staff",
+                        "org_type": "School"
+                    },
+                    "$person": {
+                        "$sys": {
+                            "source_id": {
+                                "csv": "person.teacher.1"
+                            },
+                            "type": "Person",
+                            "person_type": "Staff"
+                        }
+                    },
+                    "$org": {
+                        "$sys": {
+                            "source_id": {
+                                "csv": "org.school.1"
+                            },
+                            "type": "Org",
+                            "person_type": "School"
+                        }
+                    }
+                },
+                {
+                    "$sys": {
+                        "source_id": {
+                            "example": "personorgmembership.teacher.school.2"
+                        },
+                        "type": "PersonOrgMembership",
+                        "person_type": "Staff",
+                        "org_type": "School"
+                    },
+                    "$person": {
+                        "$sys": {
+                            "source_id": {
+                                "csv": "person.teacher.2"
+                            },
+                            "type": "Person",
+                            "person_type": "Staff"
+                        }
+                    },
+                    "$org": {
+                        "$sys": {
+                            "source_id": {
+                                "csv": "org.school.2"
+                            },
+                            "type": "Org",
+                            "person_type": "School"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

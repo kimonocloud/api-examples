@@ -1,0 +1,39 @@
+{
+    "data": [
+        { 
+            "domain": "RDM:STUDENT",
+            "objects": [
+                {
+                    "$sys": {
+                        "source_id": {
+                            "example": "person.student.1"
+                        },
+                        "type": "Person",
+                        "person_type": "Student"
+                    },
+                    "local_id": "1",
+                    "name": {
+                        "first": "First",
+                        "middle": "1",
+                        "last": "Student"
+                    }
+                },
+                {
+                    "$sys": {
+                        "source_id": {
+                            "example": "person.student.2"
+                        },
+                        "type": "Person",
+                        "person_type": "Student"
+                    },
+                    "local_id": "2",
+                    "name": {
+                        "first": "Second",
+                        "middle": "2",
+                        "last": "Student"
+                    }
+                }
+            ]
+        }
+    ]
+}

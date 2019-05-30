@@ -2,9 +2,10 @@
 	Sample Integration: Blind Sync synchronization mode
  -->
 
-<IntegrationBlueprint Name='Blind Sync' Version='1.0.1' SchemaVersion='2.0.0'>
+<IntegrationBlueprint Name='Blind Sync' Version='1.0.2' SchemaVersion='2.0.0'>
 	<Integration>
 		<Title>Blind Sync Example</Title>
+		<IdSpace>example</IdSpace>
 	</Integration>
 
 	<!--

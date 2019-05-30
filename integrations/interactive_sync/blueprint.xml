@@ -5,6 +5,7 @@
 <IntegrationBlueprint Name='Interactive Sync' Version='1.0.0' SchemaVersion='2.0.0'>
 	<Integration>
 		<Title>Interactive Sync Example</Title>
+		<IdSpace>example</IdSpace>
 	</Integration>
 
 	<!--

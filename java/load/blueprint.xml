@@ -1,0 +1,84 @@
+<!-- 	
+	DirectoryExample configured for Blind Sync synchronization mode
+ -->
+
+<IntegrationBlueprint Name='LoadExample' Version='1.0.0' SchemaVersion='2.0.0'>
+	<Integration>
+		<Title>LoadExample</Title>
+		<IdSpace>example</IdSpace>
+	</Integration>
+
+	<Sync>
+		<Events Mode='blind'/>
+	</Sync>
+
+	<!--
+		The template defines all topics with the Core Attributes defined by Kimono.
+	-->
+
+	<Topics>
+		<Topic Name='School'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$teachers'/>
+				<Attribute Name='$students'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Student'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+			</Attributes>
+		</Topic>
+
+		<!-- <Topic Name='Teacher'> -->
+		<Topic Name='Staff'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+			</Attributes>
+		</Topic>
+
+		<!-- 
+			NOTE: This will not be required in a future release, but for now, you must tell
+			Kimono to subscribe to StudentSchoolMembership but to not Consume this topic. 
+			Otherwise, the data will not be available for the Org.$students rollup defined 
+			in the Student topic above.
+		-->
+	  	<!-- <Topic Name='StudentSchoolMembership'> -->
+	  	<Topic Name='StudentSchoolEnrollment'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+
+		<!-- 
+			NOTE: This will not be required in a future release, but for now, you must tell
+			Kimono to subscribe to TeacherSchoolMembership but to not Consume this topic. 
+			Otherwise, the data will not be available for the Org.$teachers rollup defined 
+			in the Teacher topic above.
+		-->
+		<!-- <Topic Name='TeacherSchoolMembership'> -->
+	  	<Topic Name='StaffSchoolEnrollment'> 
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+	  
+	</Topics>
+
+</IntegrationBlueprint>
