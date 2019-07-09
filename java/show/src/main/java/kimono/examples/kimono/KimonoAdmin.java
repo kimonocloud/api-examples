@@ -46,7 +46,7 @@ public class KimonoAdmin extends AbstractApi {
 			try {
 				// === Clever porting note === The /oauth/tokens endpoint is the nearest 
 				// equivalent API in Clever
-				for (TenantInfo tenant : tenants.listInteropTenants(null)) {
+				for (TenantInfo tenant : tenants.listInteropTenants(null,null,null,null).getData()) {
 					report.line(tenant.getId() + ": " + tenant.getName() + " ("+tenant.getAccount().getName()+")");
 				}
 			} catch (ApiException e) {

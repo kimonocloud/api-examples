@@ -65,7 +65,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listOrgs() {
 		return (report, props) -> {
 			try {
-				rostering.listOrgs().getData().forEach(org->
+				rostering.listOrgs(null, null).getData().forEach(org->
 					report.writeEntity(org.get$Sys().getId(), formatOrg(org), org));
 			} catch (ApiException e) {
 				report.error(e, e.getResponseBody(), e.getResponseHeaders());
@@ -84,7 +84,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Org entity where the $sys.org_type == 'school'.
 				// The specific attributes mapped to School may be different
 				// from other Org topics like LEA.
-				for (Org org : rostering.listSchools().getData()) {
+				for (Org org : rostering.listSchools(null, null).getData()) {
 					report.line(org.get$Sys().getId() + ": " + org.getName());
 				}
 			} catch (ApiException e) {
@@ -104,7 +104,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Org entity where the $sys.org_type == 'lea'.
 				// The specific attributes mapped to LEA may be different
 				// from other Org topics like School.
-				OrgsResponse rsp = rostering.listLEAs();
+				OrgsResponse rsp = rostering.listLEAs(null, null);
 				if( rsp.getData() != null ) {
 					for (Org org : rsp.getData() ) {
 						report.line(org.get$Sys().getId() + ": " + org.getName());
@@ -122,7 +122,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listPersons() {
 		return (report, props) -> {
 			try {
-				for (Person person : rostering.listPersons().getData()) {
+				for (Person person : rostering.listPersons(null, null).getData()) {
 					report.line(person.get$Sys().getId() + ": " + person.getName());
 				}
 			} catch (ApiException e) {
@@ -142,7 +142,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Person entity where the $sys.person_type == 'student'.
 				// The specific attributes mapped to Student may be different
 				// from other Person topics like Teacher.
-				for (Person person : rostering.listStudents().getData()) {
+				for (Person person : rostering.listStudents(null, null).getData()) {
 					NameType name = person.getName();
 					report.line(person.get$Sys().getId() + ": " + name.getLast() + ", " + name.getFirst() +
 							" (" + person.getEmail() + ")");
@@ -164,7 +164,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Person entity where the $sys.person_type == 'teacher'.
 				// The specific attributes mapped to Teacher may be different
 				// from other Person topics like Student.
-				for (Person person : rostering.listTeachers().getData()) {
+				for (Person person : rostering.listTeachers(null, null).getData()) {
 					NameType name = person.getName();
 					report.line(person.get$Sys().getId() + ": " + name.getLast() + ", " + name.getFirst() +
 							" (" + person.getEmail() + ")");
@@ -181,7 +181,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listTerms() {
 		return (report, props) -> {
 			try {
-				for (Term session : rostering.listTerms().getData()) {
+				for (Term session : rostering.listTerms(null, null).getData()) {
 					report.line(session.get$Sys().getId() + ": " + session.getName() + " ("+session.getStartDate()+" to "+session.getEndDate()+")");
 				}
 			} catch (ApiException e) {
@@ -196,7 +196,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listCourses() {
 		return (report, props) -> {
 			try {
-				for (Course course : rostering.listCourses().getData()) {
+				for (Course course : rostering.listCourses(null, null).getData()) {
 					report.line(course.get$Sys().getId() + ": " + course.getLocalId() + " " + course.getTitle());
 				}
 			} catch (ApiException e) {
@@ -211,7 +211,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listSections() {
 		return (report, props) -> {
 			try {
-				for (Section section : rostering.listSections().getData()) {
+				for (Section section : rostering.listSections(null, null).getData()) {
 					report.line(section.get$Sys().getId() + ": " + section.getLocalId() + " " + section.getTitle());
 				}
 			} catch (ApiException e) {
@@ -226,7 +226,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listPersonOrgMemberships() {
 		return (report, props) -> {
 			try {
-				for (Section section : rostering.listSections().getData()) {
+				for (Section section : rostering.listSections(null, null).getData()) {
 					report.line(section.get$Sys().getId() + ": " + section.getLocalId() + " " + section.getTitle());
 				}
 			} catch (ApiException e) {
@@ -241,7 +241,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listPersonSectionMemberships() {
 		return (report, props) -> {
 			try {
-				for (Section section : rostering.listSections().getData()) {
+				for (Section section : rostering.listSections(null, null).getData()) {
 					report.line(section.get$Sys().getId() + ": " + section.getLocalId() + " " + section.getTitle());
 				}
 			} catch (ApiException e) {

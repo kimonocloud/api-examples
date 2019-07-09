@@ -49,7 +49,7 @@ public class IntegrationsExample {
 		IntegrationsApi api = new IntegrationsApi(getApiKeyClient());
 		
 		// Find the Integration with the name "example"
-		Integration ix = api.listIntegrations("example").getData().stream().findFirst().orElse(null);
+		Integration ix = api.listIntegrations("example", null, null).getData().stream().findFirst().orElse(null);
 		if( ix != null ) {
 			System.out.println("Integration is already loaded");
 			return;
@@ -58,7 +58,7 @@ public class IntegrationsExample {
 		// Create a new Integration with this name
 		ix = new Integration();
 		ix.setName("example");
-		ix = api.createIntegration(ix);
+		ix = api.createIntegration(ix).getData();
 		System.out.println("Created Integration with id: "+ix.getId());
 		
 		// Now load the Integration Blueprint. A given Integration can have 
@@ -70,12 +70,12 @@ public class IntegrationsExample {
 		
 		// The API currently only supports sending a blueprint.xml file as
 		// the body of the request.
-		IntegrationVersion v1 = api.createIntegrationVersion(ix.getId(),readBlueprint("v1"));
+		IntegrationVersion v1 = api.createIntegrationVersion(ix.getId(),readBlueprint("v1")).getData();
 		System.out.println("Created version of Integration: "+v1.getTitle()+" (version "+v1.getVersion()+")");
 		listVersions(api,ix);
 		
 		// Upload v2
-		IntegrationVersion v2 = api.createIntegrationVersion(ix.getId(),readBlueprint("v2"));
+		IntegrationVersion v2 = api.createIntegrationVersion(ix.getId(),readBlueprint("v2")).getData();
 		System.out.println("Created version of Integration: "+v1.getTitle()+" (version "+v2.getVersion()+")");
 		listVersions(api,ix);
 		
@@ -86,7 +86,7 @@ public class IntegrationsExample {
 	}
 	
 	private void listVersions( IntegrationsApi api, Integration ix ) throws ApiException {
-		IntegrationVersionsResponse rsp = api.listIntegrationVersions(ix.getId());
+		IntegrationVersionsResponse rsp = api.listIntegrationVersions(ix.getId(), null, null);
 		System.out.println("There are now "+rsp.getData().size()+" versions:");
 		rsp.getData().forEach(v->System.out.println("  "+v.getTitle()+" ("+v.getVersion()+")"));
 	}

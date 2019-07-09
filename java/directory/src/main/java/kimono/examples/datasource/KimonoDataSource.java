@@ -43,7 +43,7 @@ public class KimonoDataSource implements DataSource {
 	public DirOrg getDistrict() throws KimonoApiException {
 		try {
 			// Fetch a list of Kimono LEAs and return the first one
-			List<Org> orgs = fRostering.listLEAs().getData();
+			List<Org> orgs = fRostering.listLEAs(null, null).getData();
 			if( orgs != null ) {
 				return transform(orgs.stream().findFirst().orElse(null));
 			}
@@ -57,7 +57,7 @@ public class KimonoDataSource implements DataSource {
 	public RecordSet<DirOrg> getSchools(Page page) throws KimonoApiException {
 		try {
 			// Fetch a list of Kimono Schools
-			OrgsResponse response = fRostering.listSchools();
+			OrgsResponse response = fRostering.listSchools(null, null);
 			
 			// Return transformed as DirOrg objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
@@ -71,7 +71,7 @@ public class KimonoDataSource implements DataSource {
 	public RecordSet<DirPerson> getStudents(DirOrg school, Page page) throws KimonoApiException {
 		try {
 			// Fetch a list of Kimono students
-			PersonsResponse response = fRostering.listStudentsForOrg(UUID.fromString(school.getSourceId()));
+			PersonsResponse response = fRostering.listStudentsForOrg(UUID.fromString(school.getSourceId()),null, null);
 			
 			// Return transformed as DirPerson objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
@@ -85,7 +85,7 @@ public class KimonoDataSource implements DataSource {
 	public RecordSet<DirPerson> getStaff(DirOrg school, Page page) throws KimonoApiException {
 		try {
 			// Fetch a list of Kimono staff
-			PersonsResponse response = fRostering.listTeachersForOrg(UUID.fromString(school.getSourceId()));
+			PersonsResponse response = fRostering.listTeachersForOrg(UUID.fromString(school.getSourceId()),null, null);
 			
 			// Return transformed as DirPerson objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
@@ -99,7 +99,7 @@ public class KimonoDataSource implements DataSource {
 	public RecordSet<DirTerm> getTerms(DirOrg school, Page page) throws KimonoApiException {
 		try {
 			// Fetch a list of Kimono terms
-			TermsResponse response = fRostering.listTermsForOrg(UUID.fromString(school.getSourceId()));
+			TermsResponse response = fRostering.listTermsForOrg(UUID.fromString(school.getSourceId()),null, null);
 			
 			// Return transformed as DirTerm objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),
@@ -113,7 +113,7 @@ public class KimonoDataSource implements DataSource {
 	public RecordSet<DirCourse> getCourses(DirOrg school, Page page) throws KimonoApiException {
 		try {
 			// Fetch a list of Kimono courses
-			CoursesResponse response = fRostering.listCoursesForOrg(UUID.fromString(school.getSourceId()));
+			CoursesResponse response = fRostering.listCoursesForOrg(UUID.fromString(school.getSourceId()),null, null);
 			
 			// Return transformed as DirCourse objects along with count of total objects available
 			return new RecordSet<>(response.getData().stream().map(this::transform).collect(Collectors.toList()),

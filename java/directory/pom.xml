@@ -3,11 +3,11 @@
 
 	<parent>
 		<groupId>com.kimonocloud</groupId>
-		<artifactId>examples</artifactId>
+		<artifactId>api-examples</artifactId>
 		<version>2.0-SNAPSHOT</version>
 	</parent>
 
- 	<artifactId>directory</artifactId>
+ 	<artifactId>api-example-directory</artifactId>
  	<name>Kimono API Example: Directory</name>
  	<description>Builds a student and staff directory from Kimono or OneRoster APIs</description>
  	<packaging>jar</packaging>

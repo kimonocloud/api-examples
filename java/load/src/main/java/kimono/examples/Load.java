@@ -18,12 +18,12 @@ import com.google.gson.JsonSyntaxException;
 import kimono.api.v2.broker.MessagesApi;
 import kimono.api.v2.broker.model.Message;
 import kimono.api.v2.interop.ApiException;
-import kimono.api.v2.interop.IngestionsApi;
-import kimono.api.v2.interop.model.Ingestion;
-import kimono.api.v2.interop.model.IngestionResponse;
-import kimono.api.v2.interop.model.IngestionState;
-import kimono.api.v2.interop.model.IngestionType;
+import kimono.api.v2.interopdata.IngestionsApi;
 import kimono.api.v2.interopdata.RosteringApi;
+import kimono.api.v2.interopdata.model.Ingestion;
+import kimono.api.v2.interopdata.model.IngestionResponse;
+import kimono.api.v2.interopdata.model.IngestionState;
+import kimono.api.v2.interopdata.model.IngestionType;
 import kimono.api.v2.interopdata.model.Org;
 import kimono.api.v2.interopdata.model.OrgSysType;
 import kimono.api.v2.interopdata.model.Person;
@@ -131,8 +131,9 @@ public class Load {
 	/**
 	 * Wait for Ingestion to complete
 	 * @throws ApiException 
+	 * @throws kimono.api.v2.interopdata.ApiException 
 	 */
-	protected IngestionState waitForIngestion( Ingestion ingestion ) throws ApiException {
+	protected IngestionState waitForIngestion( Ingestion ingestion ) throws kimono.api.v2.interopdata.ApiException {
 		
 		// TODO: Use the Ingestion Report to accomplish this without polling
 
@@ -213,29 +214,29 @@ public class Load {
 			
 			// === Orgs ====
 			
-			List<Org> orgs = rostering.listOrgs().getData();
+			List<Org> orgs = rostering.listOrgs(null, null).getData();
 			orgs.forEach(this::print);
 			assertSize("listOrgs",orgs,3);
 			
-			List<Org> leas = rostering.listLEAs().getData();
+			List<Org> leas = rostering.listLEAs(null, null).getData();
 			leas.forEach(this::print);
 			assertSize("listLEAs",leas,1);
 			
-			List<Org> schools = rostering.listSchools().getData();
+			List<Org> schools = rostering.listSchools(null, null).getData();
 			schools.forEach(this::print);
 			assertSize("listSchools",schools,2);
 			
 			// === Persons ===
 			
-			List<Person> persons = rostering.listPersons().getData();
+			List<Person> persons = rostering.listPersons(null, null).getData();
 			persons.forEach(this::print);
 			assertSize("listPersons",persons,4);
 			
-			List<Person> students = rostering.listStudents().getData();
+			List<Person> students = rostering.listStudents(null, null).getData();
 			students.forEach(this::print);
 			assertSize("listStudents",students,2);
 			
-			List<Person> teachers = rostering.listTeachers().getData();
+			List<Person> teachers = rostering.listTeachers(null, null).getData();
 			teachers.forEach(this::print);
 			assertSize("listTeachers",teachers,2);
 			

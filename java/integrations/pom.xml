@@ -7,7 +7,7 @@
 		<version>2.0-SNAPSHOT</version>
 	</parent>
 
- 	<artifactId>integrations</artifactId>
+ 	<artifactId>api-example-integrations</artifactId>
  	<name>Kimono API Example: Integrations</name>
  	<description>Demonstrates how to use Integration APIs</description>
  	<packaging>jar</packaging>
