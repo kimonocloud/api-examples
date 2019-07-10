@@ -7,8 +7,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>load</module>
 		<module>show</module>
+		<module>tenants</module>
+		<module>load</module>
 		<module>events</module>
 		<module>directory</module>
 		<module>integrations</module>

@@ -23,22 +23,28 @@ import kimono.examples.oneroster.OneRoster;
  * Usage:
  * 
  * <pre>show topic1 .. topicN -api:[kimono|oneroster|clever] -option:value</pre>
+ *
+ * Authentication:
  * 
+ * When connecting to a Kimono Integration or OneRoster Connector set 
+ * the "-client:value" and "-secret:value" parameters. The Client ID and Secret 
+ * are shown on the Actor page in Dashboard. They can be also be obtained via 
+ * the GET /interop/tenants API.
+ *
+ * When connecting to Clever set the -token:value to the Clever OAuth token.
+ *
  * Options:
  * 
  * 	-full:true Show the full data object
  * 	-page_size:n Change the default page size of 10
- *  -username:value Integration client ID when -api:kimono or -api:oneroster
- *  -username:value OneRoster Connector client secret when -api:kimono or -api:oneroster
- *  -token:value Clever token when -api:clever
  * 
  * Examples:
  * 
  * Use the Kimono Interop Data API to show the first ten results from each topic:
- * <pre>show -api:kimono -username:<actor_client_id> -password:<actor_client_secret>
+ * <pre>show -api:kimono -client:<actor_client_id> -secret:<actor_client_secret>
  * 
  * Use the OneRoster API to show the first ten orgs, persons, and sections:
- * <pre>show orgs persons sections -api:oneroster -username:<actor_client_id> -password:<actor_client_secret>
+ * <pre>show orgs persons sections -api:oneroster -client:<actor_client_id> -secret:<actor_client_secret>
  *
  */
 public class Show {

@@ -1,12 +1,13 @@
 package kimono.examples.kimono;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
+import kimono.api.v2.interop.model.TenantInfo;
 import kimono.api.v2.interopdata.ApiClient;
 import kimono.api.v2.interopdata.ApiException;
-import kimono.api.v2.interopdata.Configuration;
 import kimono.api.v2.interopdata.RosteringApi;
-import kimono.api.v2.interopdata.TasksApi;
 import kimono.api.v2.interopdata.model.Course;
 import kimono.api.v2.interopdata.model.Org;
 import kimono.api.v2.interopdata.model.Person;
@@ -22,7 +23,6 @@ public class KimonoRostering extends AbstractApi {
 
 	ApiClient client;
 	RosteringApi rostering;
-	TasksApi tasks;
 
 	public KimonoRostering( Properties props ) {
 		super(props);
@@ -42,14 +42,13 @@ public class KimonoRostering extends AbstractApi {
 	@Override
 	public void authenticate( Properties props ) {
 		if( client == null ) {
-			client = Configuration.getDefaultApiClient();
-			client.setAccessToken(props.getProperty("token"));
-			client.setUsername(props.getProperty("username"));
-			client.setPassword(props.getProperty("password"));
-			client.setUserAgent("Kimono API Example");
-
-			rostering = new RosteringApi();
-			tasks = new TasksApi();
+			// APIs that connect to a specific actor use Actor Authentication. Obtain 
+			// the client ID and client secret from the Actor page in Dashboard or from 
+			// the GET /interop/tenants API. Specify as properties "client" and "secret".
+			Map<String,String> p = new HashMap<>();
+			client = new ApiClient(props.getProperty("client"),props.getProperty("secret"),p);
+			client.setReadTimeout(30000);
+			rostering = new RosteringApi(client);
 		}
 	}		
 
@@ -226,6 +225,10 @@ public class KimonoRostering extends AbstractApi {
 	
 	public static String formatSection( Section section ) {
 		return section == null ? "null" : section.getLocalId() + " " + section.getTitle();		
-	}	
+	}
+	
+	public static String formatTenant( TenantInfo tenant ) {
+		return tenant == null ? "null" : tenant.getName();
+	}
 	
 }

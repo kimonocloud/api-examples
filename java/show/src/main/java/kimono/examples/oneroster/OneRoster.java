@@ -1,5 +1,7 @@
 package kimono.examples.oneroster;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -8,7 +10,6 @@ import kimono.examples.Fetcher;
 import kimono.examples.Report;
 import kimono.oneroster.v1p1.ApiClient;
 import kimono.oneroster.v1p1.ApiException;
-import kimono.oneroster.v1p1.Configuration;
 import kimono.oneroster.v1p1.api.RosteringApi;
 import kimono.oneroster.v1p1.model.GUIDRef;
 import kimono.oneroster.v1p1.model.ModelClass;
@@ -20,7 +21,7 @@ import kimono.oneroster.v1p1.model.User;
  */
 public class OneRoster extends AbstractApi {
 
-	ApiClient client;
+	ApiClient actorAuthClient;
 	RosteringApi rostering;
 	
 	public OneRoster( Properties props ) {
@@ -41,15 +42,16 @@ public class OneRoster extends AbstractApi {
 	
 	@Override
 	public void authenticate( Properties props ) {
-		if( client == null ) {
-			client = Configuration.getDefaultApiClient();
-			client.setAccessToken(props.getProperty("token"));
-			client.setUsername(props.getProperty("username"));
-			client.setPassword(props.getProperty("password"));
-			client.setUserAgent("Kimono API Example");
-			rostering = new RosteringApi();
+		if( actorAuthClient == null ) {
+			// APIs that connect to a specific actor use Actor Authentication. Obtain 
+			// the client ID and client secret from the Actor page in Dashboard or from 
+			// the GET /interop/tenants API. Specify as properties "client" and "secret".
+			Map<String,String> p = new HashMap<>();
+			actorAuthClient = new ApiClient(props.getProperty("client"),props.getProperty("secret"),p);
+
+			rostering = new RosteringApi(actorAuthClient);
 		}
-	}
+	}		
 
 	/**
 	 * {@code GET /academicsessions}
