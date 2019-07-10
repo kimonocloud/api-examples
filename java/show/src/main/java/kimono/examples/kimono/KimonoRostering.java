@@ -8,16 +8,12 @@ import kimono.api.v2.interopdata.Configuration;
 import kimono.api.v2.interopdata.RosteringApi;
 import kimono.api.v2.interopdata.TasksApi;
 import kimono.api.v2.interopdata.model.Course;
-import kimono.api.v2.interopdata.model.NameType;
 import kimono.api.v2.interopdata.model.Org;
-import kimono.api.v2.interopdata.model.OrgsResponse;
 import kimono.api.v2.interopdata.model.Person;
 import kimono.api.v2.interopdata.model.Section;
 import kimono.api.v2.interopdata.model.Term;
 import kimono.examples.AbstractApi;
 import kimono.examples.Fetcher;
-import kimono.oneroster.v1p1.model.ModelClass;
-import kimono.oneroster.v1p1.model.User;
 
 /**
  * Fetches data from Kimono Rostering APIs
@@ -41,8 +37,6 @@ public class KimonoRostering extends AbstractApi {
 		setFetcher("terms", listTerms());
 		setFetcher("courses", listCourses());
 		setFetcher("sections", listSections());
-		setFetcher("personorgmemberships", listPersonOrgMemberships());
-		setFetcher("personsectionmemberships", listPersonSectionMemberships());
 	}
 	
 	@Override
@@ -65,8 +59,8 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listOrgs() {
 		return (report, props) -> {
 			try {
-				rostering.listOrgs(null, null).getData().forEach(org->
-					report.writeEntity(org.get$Sys().getId(), formatOrg(org), org));
+				rostering.listOrgs(1, getPageSize()).getData().forEach(org->
+					report.writeEntity(org.get$Sys().getId(), formatOrg(org), dumpObject(org)));
 			} catch (ApiException e) {
 				report.error(e, e.getResponseBody(), e.getResponseHeaders());
 			}
@@ -84,9 +78,8 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Org entity where the $sys.org_type == 'school'.
 				// The specific attributes mapped to School may be different
 				// from other Org topics like LEA.
-				for (Org org : rostering.listSchools(null, null).getData()) {
-					report.line(org.get$Sys().getId() + ": " + org.getName());
-				}
+				rostering.listSchools(1, getPageSize()).getData().forEach(org->
+					report.writeEntity(org.get$Sys().getId(), formatOrg(org), dumpObject(org)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -104,12 +97,8 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Org entity where the $sys.org_type == 'lea'.
 				// The specific attributes mapped to LEA may be different
 				// from other Org topics like School.
-				OrgsResponse rsp = rostering.listLEAs(null, null);
-				if( rsp.getData() != null ) {
-					for (Org org : rsp.getData() ) {
-						report.line(org.get$Sys().getId() + ": " + org.getName());
-					}
-				}
+				rostering.listLEAs(1, getPageSize()).getData().forEach(org->
+					report.writeEntity(org.get$Sys().getId(), formatOrg(org), dumpObject(org)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -122,9 +111,8 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listPersons() {
 		return (report, props) -> {
 			try {
-				for (Person person : rostering.listPersons(null, null).getData()) {
-					report.line(person.get$Sys().getId() + ": " + person.getName());
-				}
+				rostering.listPersons(1, getPageSize()).getData().forEach(person->
+					report.writeEntity(person.get$Sys().getId(), formatPerson(person), dumpObject(person)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -142,11 +130,8 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Person entity where the $sys.person_type == 'student'.
 				// The specific attributes mapped to Student may be different
 				// from other Person topics like Teacher.
-				for (Person person : rostering.listStudents(null, null).getData()) {
-					NameType name = person.getName();
-					report.line(person.get$Sys().getId() + ": " + name.getLast() + ", " + name.getFirst() +
-							" (" + person.getEmail() + ")");
-				}
+				rostering.listStudents(1, getPageSize()).getData().forEach(person->
+					report.writeEntity(person.get$Sys().getId(), formatPerson(person), dumpObject(person)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -164,11 +149,8 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Person entity where the $sys.person_type == 'teacher'.
 				// The specific attributes mapped to Teacher may be different
 				// from other Person topics like Student.
-				for (Person person : rostering.listTeachers(null, null).getData()) {
-					NameType name = person.getName();
-					report.line(person.get$Sys().getId() + ": " + name.getLast() + ", " + name.getFirst() +
-							" (" + person.getEmail() + ")");
-				}
+				rostering.listTeachers(1, getPageSize()).getData().forEach(person->
+					report.writeEntity(person.get$Sys().getId(), formatPerson(person), dumpObject(person)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -176,14 +158,13 @@ public class KimonoRostering extends AbstractApi {
 	}
 	
 	/**
-	 * Get {@code kimono:sessions}
+	 * Get {@code kimono:terms}
 	 */
 	public Fetcher listTerms() {
 		return (report, props) -> {
 			try {
-				for (Term session : rostering.listTerms(null, null).getData()) {
-					report.line(session.get$Sys().getId() + ": " + session.getName() + " ("+session.getStartDate()+" to "+session.getEndDate()+")");
-				}
+				rostering.listTerms(1, getPageSize()).getData().forEach(term->
+					report.writeEntity(term.get$Sys().getId(), formatTerm(term), dumpObject(term)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -196,9 +177,8 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listCourses() {
 		return (report, props) -> {
 			try {
-				for (Course course : rostering.listCourses(null, null).getData()) {
-					report.line(course.get$Sys().getId() + ": " + course.getLocalId() + " " + course.getTitle());
-				}
+				rostering.listCourses(1, getPageSize()).getData().forEach(course->
+					report.writeEntity(course.get$Sys().getId(), formatCourse(course), dumpObject(course)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -211,9 +191,8 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listSections() {
 		return (report, props) -> {
 			try {
-				for (Section section : rostering.listSections(null, null).getData()) {
-					report.line(section.get$Sys().getId() + ": " + section.getLocalId() + " " + section.getTitle());
-				}
+				rostering.listSections(1, getPageSize()).getData().forEach(section->
+					report.writeEntity(section.get$Sys().getId(), formatSection(section), dumpObject(section)));
 			} catch (ApiException e) {
 				log(e);
 			}
@@ -221,45 +200,32 @@ public class KimonoRostering extends AbstractApi {
 	}
 	
 	/**
-	 * Get {@code kimono:sections}
+	 * Helper to return the {@code object} when the {@code -full:true} property is
+	 * specified, otherwise null. When {@code -full:true} is enabled, the full object
+	 * is dumped to the console in addition to the single line description.
 	 */
-	public Fetcher listPersonOrgMemberships() {
-		return (report, props) -> {
-			try {
-				for (Section section : rostering.listSections(null, null).getData()) {
-					report.line(section.get$Sys().getId() + ": " + section.getLocalId() + " " + section.getTitle());
-				}
-			} catch (ApiException e) {
-				log(e);
-			}
-		};
+	private <T extends Object> T dumpObject( T object ) {
+		return isFull() ? object : null; 
 	}
-	
-	/**
-	 * Get {@code kimono:sections}
-	 */
-	public Fetcher listPersonSectionMemberships() {
-		return (report, props) -> {
-			try {
-				for (Section section : rostering.listSections(null, null).getData()) {
-					report.line(section.get$Sys().getId() + ": " + section.getLocalId() + " " + section.getTitle());
-				}
-			} catch (ApiException e) {
-				log(e);
-			}
-		};
-	}	
-	
-	public static String formatUser( User user ) {
-		return user == null ? "null" : user.getGivenName()+" "+user.getFamilyName()+" ("+user.getEmail()+")";
+
+	public static String formatPerson( Person person ) {
+		return person == null ? "null" : person.getName().getFirst()+" "+person.getName().getLast()+" ("+person.getEmail()+")";
 	}
 	
 	public static String formatOrg( Org org ) {
 		return org == null ? "null" : org.getName();
 	}
 	
-	public static String formatSection( ModelClass section ) {
-		return section == null ? "null" : section.getTitle();		
+	public static String formatTerm( Term term ) {
+		return term == null ? "null" : term.getName()+" ("+term.getStartDate()+" to "+term.getEndDate()+")";
+	}
+	
+	public static String formatCourse( Course course ) {
+		return course == null ? "null" : course.getLocalId() + " " + course.getTitle();		
+	}	
+	
+	public static String formatSection( Section section ) {
+		return section == null ? "null" : section.getLocalId() + " " + section.getTitle();		
 	}	
 	
 }

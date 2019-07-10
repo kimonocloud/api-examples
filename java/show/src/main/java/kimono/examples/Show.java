@@ -22,15 +22,23 @@ import kimono.examples.oneroster.OneRoster;
  * 
  * Usage:
  * 
- * <pre>show topic1 .. topicN -api:[kimono|oneroster|clever] -property:value</pre>
+ * <pre>show topic1 .. topicN -api:[kimono|oneroster|clever] -option:value</pre>
+ * 
+ * Options:
+ * 
+ * 	-full:true Show the full data object
+ * 	-page_size:n Change the default page size of 10
+ *  -username:value Integration client ID when -api:kimono or -api:oneroster
+ *  -username:value OneRoster Connector client secret when -api:kimono or -api:oneroster
+ *  -token:value Clever token when -api:clever
  * 
  * Examples:
  * 
  * Use the Kimono Interop Data API to show the first ten results from each topic:
- * <pre>show -api:kimono -token:zp1TPY8TFlOfpsEI5nGN41UUzGq1
+ * <pre>show -api:kimono -username:<actor_client_id> -password:<actor_client_secret>
  * 
  * Use the OneRoster API to show the first ten orgs, persons, and sections:
- * <pre>show orgs persons sections -api:oneroster -token:zp1TPY8TFlOfpsEI5nGN41UUzGq1
+ * <pre>show orgs persons sections -api:oneroster -username:<actor_client_id> -password:<actor_client_secret>
  *
  */
 public class Show {
@@ -42,9 +50,7 @@ public class Show {
 	private static List<String> sTopics = Arrays.asList(
 			"orgs","schools","leas",
 			"persons","students","teachers",
-			"terms","courses","sections",
-			"personorgmemberships",
-			"personsectionmemberships");
+			"terms","courses","sections");
 
 	/**
 	 * The actions to perform when the program is run

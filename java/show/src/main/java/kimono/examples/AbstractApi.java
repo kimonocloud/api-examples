@@ -24,6 +24,29 @@ public abstract class AbstractApi implements Api {
 		fetchers.put(resource, impl);
 	}
 	
+	/**
+	 * Get properties
+	 */
+	protected Properties getProperties() {
+		return props;
+	}
+	
+	/**
+	 * Get the {@code page_size} property
+	 * @return The number of objects to get for each topic. efaults to 10.
+	 */
+	protected int getPageSize() {
+		return Integer.parseInt(props.getProperty("page_size", "10"));
+	}
+	
+	/**
+	 * Get the {@code full} property
+	 * @return true to dump the full object, otherwise false. Defaults to false.
+	 */
+	protected boolean isFull() {
+		return Boolean.parseBoolean(props.getProperty("full", "false"));
+	}
+	
 	@Override
 	public void fetch(String resource, Report report) {
 		
