@@ -1,6 +1,7 @@
 package kimono.examples.directory;
 
 import kimono.api.v2.interop.model.TenantInfo;
+import kimono.client.KCTenant;
 import kimono.client.KimonoApiException;
 import kimono.client.util.TenantUtils;
 import kimono.examples.datasource.DataSource;
@@ -23,7 +24,7 @@ public class InMemoryDirectory implements Directory {
 	/**
 	 * The Kimono tenant represented by this directory
 	 */
-	private TenantInfo fTenant;
+	private KCTenant fTenant;
 
 	/**
 	 * The LEA ("district")
@@ -39,7 +40,7 @@ public class InMemoryDirectory implements Directory {
 	 * Constructor
 	 * @param tenant The {@link TenantInfo} represented by this Directory
 	 */
-	public InMemoryDirectory(TenantInfo tenant) {
+	public InMemoryDirectory(KCTenant tenant) {
 		fTenant = tenant;
 	}
 	
@@ -48,7 +49,7 @@ public class InMemoryDirectory implements Directory {
 	 * @return The TenantInfo passed to the constructor
 	 */
 	@Override
-	public TenantInfo getTenant() {
+	public KCTenant getTenant() {
 		return fTenant;
 	}
 

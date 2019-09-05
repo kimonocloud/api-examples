@@ -18,7 +18,7 @@ public class ContentsRenderer extends MarkdownRenderer<Contents> {
 		md.hr();
 
 		toc.getDirectories().forEach(dir->{
-			md.h2("["+dir.getName()+"]("+dir.getTenant().getId()+"/index.html)");
+			md.h2("["+dir.getName()+"]("+dir.getTenant().getTenantInfo().getId()+"/index.html)");
 			if( dir.getDistrict() != null ) {
 				md.p(dir.getDistrict().getName());
 				md.p(dir.getDistrict().getAddress());

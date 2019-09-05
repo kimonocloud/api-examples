@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import kimono.api.v2.interop.model.TenantInfo;
 import kimono.api.v2.interopdata.ApiClient;
 import kimono.api.v2.interopdata.RosteringApi;
 import kimono.api.v2.interopdata.model.Course;
@@ -16,8 +15,10 @@ import kimono.api.v2.interopdata.model.Person;
 import kimono.api.v2.interopdata.model.PersonsResponse;
 import kimono.api.v2.interopdata.model.Term;
 import kimono.api.v2.interopdata.model.TermsResponse;
+import kimono.client.KCTenant;
 import kimono.client.KimonoApiException;
-import kimono.client.impl.DefaultInteropDataClientFactory;
+import kimono.client.KimonoApis;
+import kimono.client.impl.Credentials;
 import kimono.client.util.DataUtils;
 import kimono.examples.model.CourseImpl;
 import kimono.examples.model.DirCourse;
@@ -34,8 +35,8 @@ public class KimonoDataSource implements DataSource {
 	private ApiClient fClient;
 	private RosteringApi fRostering;
 
-	public KimonoDataSource(TenantInfo tenant) {
-		fClient = new DefaultInteropDataClientFactory().authenticate(tenant);
+	public KimonoDataSource(KCTenant tenant) {
+		fClient = KimonoApis.getInteropDataClient(Credentials.forTenant(tenant));
 		fRostering = new RosteringApi(fClient);
 	}
 

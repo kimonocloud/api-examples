@@ -42,12 +42,29 @@ public class KimonoRostering extends AbstractApi {
 	@Override
 	public void authenticate( Properties props ) {
 		if( client == null ) {
-			// APIs that connect to a specific actor use Actor Authentication. Obtain 
-			// the client ID and client secret from the Actor page in Dashboard or from 
-			// the GET /interop/tenants API. Specify as properties "client" and "secret".
-			Map<String,String> p = new HashMap<>();
-			client = new ApiClient(props.getProperty("client"),props.getProperty("secret"),p);
+			if( props.containsKey("username") ) {
+				// In some Kimono environments we use HTTP Basic Auth instead of OAuth2. The
+				// way this code is structured allows us to run these same examples in this env
+				// by specifying actor credentials with the "username" and "password" props
+				// instead of "client" and "secret".
+				client = new ApiClient();
+				client.setUsername(props.getProperty("username"));
+				client.setPassword(props.getProperty("password"));
+			} else
+			if( props.containsKey("client") ) {
+				// APIs that connect to a specific actor use Actor Authentication. Obtain 
+				// the client ID and client secret from the Actor page in Dashboard or from 
+				// the GET /interop/tenants API. Specify as properties "client" and "secret".
+				Map<String,String> p = new HashMap<>();
+				client = new ApiClient(props.getProperty("client"),props.getProperty("secret"),p);
+			} else {
+				throw new IllegalArgumentException("-client and -secret not specified");
+			}
+			
+			// Kimono has a 30-second read timeout
 			client.setReadTimeout(30000);
+			
+			// The Rostering APIs all require actor authentication
 			rostering = new RosteringApi(client);
 		}
 	}		
@@ -58,7 +75,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listOrgs() {
 		return (report, props) -> {
 			try {
-				rostering.listOrgs(1, getPageSize()).getData().forEach(org->
+				rostering.listOrgs(0, getPageSize()).getData().forEach(org->
 					report.writeEntity(org.get$Sys().getId(), formatOrg(org), dumpObject(org)));
 			} catch (ApiException e) {
 				report.error(e, e.getResponseBody(), e.getResponseHeaders());
@@ -77,7 +94,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Org entity where the $sys.org_type == 'school'.
 				// The specific attributes mapped to School may be different
 				// from other Org topics like LEA.
-				rostering.listSchools(1, getPageSize()).getData().forEach(org->
+				rostering.listSchools(0, getPageSize()).getData().forEach(org->
 					report.writeEntity(org.get$Sys().getId(), formatOrg(org), dumpObject(org)));
 			} catch (ApiException e) {
 				log(e);
@@ -96,7 +113,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Org entity where the $sys.org_type == 'lea'.
 				// The specific attributes mapped to LEA may be different
 				// from other Org topics like School.
-				rostering.listLEAs(1, getPageSize()).getData().forEach(org->
+				rostering.listLEAs(0, getPageSize()).getData().forEach(org->
 					report.writeEntity(org.get$Sys().getId(), formatOrg(org), dumpObject(org)));
 			} catch (ApiException e) {
 				log(e);
@@ -110,7 +127,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listPersons() {
 		return (report, props) -> {
 			try {
-				rostering.listPersons(1, getPageSize()).getData().forEach(person->
+				rostering.listPersons(0, getPageSize()).getData().forEach(person->
 					report.writeEntity(person.get$Sys().getId(), formatPerson(person), dumpObject(person)));
 			} catch (ApiException e) {
 				log(e);
@@ -129,7 +146,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Person entity where the $sys.person_type == 'student'.
 				// The specific attributes mapped to Student may be different
 				// from other Person topics like Teacher.
-				rostering.listStudents(1, getPageSize()).getData().forEach(person->
+				rostering.listStudents(0, getPageSize()).getData().forEach(person->
 					report.writeEntity(person.get$Sys().getId(), formatPerson(person), dumpObject(person)));
 			} catch (ApiException e) {
 				log(e);
@@ -148,7 +165,7 @@ public class KimonoRostering extends AbstractApi {
 				// and a type of Person entity where the $sys.person_type == 'teacher'.
 				// The specific attributes mapped to Teacher may be different
 				// from other Person topics like Student.
-				rostering.listTeachers(1, getPageSize()).getData().forEach(person->
+				rostering.listTeachers(0, getPageSize()).getData().forEach(person->
 					report.writeEntity(person.get$Sys().getId(), formatPerson(person), dumpObject(person)));
 			} catch (ApiException e) {
 				log(e);
@@ -162,7 +179,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listTerms() {
 		return (report, props) -> {
 			try {
-				rostering.listTerms(1, getPageSize()).getData().forEach(term->
+				rostering.listTerms(0, getPageSize()).getData().forEach(term->
 					report.writeEntity(term.get$Sys().getId(), formatTerm(term), dumpObject(term)));
 			} catch (ApiException e) {
 				log(e);
@@ -176,7 +193,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listCourses() {
 		return (report, props) -> {
 			try {
-				rostering.listCourses(1, getPageSize()).getData().forEach(course->
+				rostering.listCourses(0, getPageSize()).getData().forEach(course->
 					report.writeEntity(course.get$Sys().getId(), formatCourse(course), dumpObject(course)));
 			} catch (ApiException e) {
 				log(e);
@@ -190,7 +207,7 @@ public class KimonoRostering extends AbstractApi {
 	public Fetcher listSections() {
 		return (report, props) -> {
 			try {
-				rostering.listSections(1, getPageSize()).getData().forEach(section->
+				rostering.listSections(0, getPageSize()).getData().forEach(section->
 					report.writeEntity(section.get$Sys().getId(), formatSection(section), dumpObject(section)));
 			} catch (ApiException e) {
 				log(e);

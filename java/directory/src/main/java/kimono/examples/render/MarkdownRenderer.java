@@ -49,7 +49,7 @@ public abstract class MarkdownRenderer<T> implements Renderer<T> {
 	
 	protected void write( Markdown md, Directory directory, String ... path ) throws IOException {
 		String file = StringUtils.join(path,File.separator);
-		File folder = new File(fBaseDir,directory.getTenant().getId().toString());
+		File folder = new File(fBaseDir,directory.getTenant().getTenantInfo().getId().toString());
 		folder.mkdirs();
 		FileUtils.writeStringToFile(new File(folder,file), markdownToHtml(md.toString()), "UTF-8");
 	}

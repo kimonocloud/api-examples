@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 import kimono.api.v2.interop.model.TenantInfo;
-import kimono.client.impl.DefaultInteropDataClientFactory;
-import kimono.client.impl.DefaultTenantInfoSupplier;
-import kimono.client.impl.tasks.TaskHandler;
+import kimono.client.KCTenant;
+import kimono.client.KCTenantSupplier;
+import kimono.client.impl.TenantSupplier;
 import kimono.client.impl.tasks.TaskPoller;
 import kimono.client.tasks.KCTaskHandler;
 import kimono.client.tasks.KCTaskPoller;
@@ -133,7 +133,9 @@ public class DirectoryExample {
 		boolean populate = Boolean.parseBoolean(props.getProperty("populate","false"));
 		
 		// Enumerate each tenant to create a Directory for each
-		for( TenantInfo tenant : new DefaultTenantInfoSupplier(getApiKeyClient()).withName(INTEGRATION_NAME).get() ) {
+		KCTenantSupplier supplier = new TenantSupplier().forIntegrations(INTEGRATION_NAME);
+		while( supplier.hasNext() ) {
+			KCTenant tenant = supplier.next();
 			Directory dir = new InMemoryDirectory(tenant);
 			toc.add(dir);
 			if( populate ) {
@@ -157,7 +159,7 @@ public class DirectoryExample {
 	 * @param tenant The tenant; used only with the Kimono API data source
 	 * @return A data source instance
 	 */
-	protected DataSource getDataSource(TenantInfo tenant) {
+	protected DataSource getDataSource(KCTenant tenant) {
 		switch (api) {
 		case CLEVER:
 			return new CleverDataSource();
@@ -174,11 +176,9 @@ public class DirectoryExample {
 	 */
 	protected void startTaskLoop() throws Exception {
 
-		KCTaskPoller poller = new TaskPoller();
-		poller.initialize(new DefaultTenantInfoSupplier(getApiKeyClient()), new DefaultInteropDataClientFactory());
-		poller.setDefaultTaskHandler(event -> {
-			KCTaskHandler handler = new TaskHandler();
-			return handler.handle(event);
+		KCTaskPoller poller = new TaskPoller(new TenantSupplier());
+		poller.setDefaultTaskHandler((tenant,task)->{
+			return null;
 		});
 
 		poller.poll(interval, TimeUnit.SECONDS);

@@ -1,7 +1,6 @@
-.project
 .classpath
-**/target/**
-**/.settings/**
-java/directory/directory**
-/js
+.project
+**/target
+.settings
 .DS_Store
+.editorconfig

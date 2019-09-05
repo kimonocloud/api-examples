@@ -8,11 +8,8 @@ import java.util.logging.Logger;
 import kimono.api.v2.interop.ApiClient;
 import kimono.api.v2.interop.Configuration;
 import kimono.api.v2.interop.model.TenantInfo;
-import kimono.client.impl.DefaultInteropDataClientFactory;
-import kimono.client.impl.DefaultTenantInfoSupplier;
-import kimono.client.impl.tasks.TaskHandler;
+import kimono.client.impl.TenantSupplier;
 import kimono.client.impl.tasks.TaskPoller;
-import kimono.client.tasks.KCTaskHandler;
 import kimono.client.tasks.KCTaskPoller;
 
 /**
@@ -94,11 +91,9 @@ public class EventsExample {
 	}
 	
 	public void run() throws Exception {
-		KCTaskPoller poller = new TaskPoller();
-		poller.initialize(new DefaultTenantInfoSupplier(getApiKeyClient()), new DefaultInteropDataClientFactory());
-		poller.setDefaultTaskHandler(event->{
-			KCTaskHandler handler = new TaskHandler();
-			return handler.handle(event);
+		KCTaskPoller poller = new TaskPoller(new TenantSupplier());
+		poller.setDefaultTaskHandler((tenant,task)->{
+			return null;
 		});
 
 		poller.poll(interval,TimeUnit.SECONDS);

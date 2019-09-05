@@ -1,6 +1,6 @@
 package kimono.examples.directory;
 
-import kimono.api.v2.interop.model.TenantInfo;
+import kimono.client.KCTenant;
 import kimono.client.KimonoApiException;
 import kimono.examples.datasource.DataSource;
 import kimono.examples.datasource.RecordSet;
@@ -12,7 +12,7 @@ import kimono.examples.model.DirTerm;
 
 public interface Directory {
 	
-	TenantInfo getTenant();
+	KCTenant getTenant();
 	
 	String getName();
 	
