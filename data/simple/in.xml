@@ -1,0 +1,191 @@
+<!-- 
+    This manifest is for ingesting sample data set via CSV. To avoid confusion
+    between CSV column names and Kimono attribute names, the CSV column names are
+    all prefixed with "csv_". This is not a requirement nor a best practice, we
+    just want to make it clearer how the mappings work so are avoiding using
+    the same names for both columns and attributes.
+
+    This file is named "in.xml" and is used only when the folder is accessed via
+    the Inbound channel. It can therefore co-exist with the other manifest 
+    in this folder, "matching.xml", which is used to demonstrate CSV Overlay
+    Matching when the folder is accessed via the Matching channel.
+
+    IMPORTANT: All Kimono attribute names in CSV manifests must be lowercase.
+    Keep this in mind when editing this manifest.
+-->
+
+<Manifest Version='2'>
+    <Ingest>
+        <FileSet>
+            <Pattern Syntax='glob'>student*.csv</Pattern>
+            <Row>
+                <Object Topic='RDM:STUDENT'>
+                    <!-- csv_source_id,csv_local_id,csv_lname,csv_fname,csv_mname,csv_gender,csv_addr,csv_city,csv_state,csv_zip,csv_aup,csv_birthdate,email -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='local_id'>$(csv_local_id)</Attribute>
+                        <Attribute Name='name.first'>$(csv_fname)</Attribute>
+                        <Attribute Name='name.middle'>$(csv_mname)</Attribute>
+                        <Attribute Name='name.last'>$(csv_lname)</Attribute>
+                        <Attribute Name='sex'>$(csv_gender)</Attribute>
+                        <Attribute Name='address.line1'>$(csv_addr)</Attribute>
+                        <Attribute Name='address.city'>$(csv_city)</Attribute>
+                        <Attribute Name='address.state'>$(csv_state)</Attribute>
+                        <Attribute Name='address.postal_code'>$(csv_zip)</Attribute>
+                        <Attribute Name='address.country'>$(csv_country)</Attribute>
+                        <Attribute Name='email'>$(csv_email)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>teacher*.csv</Pattern>
+            <Row>
+                <Object Topic='RDM:STAFF'>
+                    <!-- csv_source_id,csv_local_id,csv_lname,csv_fname,csv_mname,csv_gender,csv_addr,csv_city,csv_state,csv_zip,csv_aup,csv_birthdate,email -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='local_id'>$(csv_local_id)</Attribute>
+                        <Attribute Name='name.first'>$(csv_fname)</Attribute>
+                        <Attribute Name='name.middle'>$(csv_mname)</Attribute>
+                        <Attribute Name='name.last'>$(csv_lname)</Attribute>
+                        <Attribute Name='sex'>$(csv_gender)</Attribute>
+                        <Attribute Name='address.line1'>$(csv_addr)</Attribute>
+                        <Attribute Name='address.city'>$(csv_city)</Attribute>
+                        <Attribute Name='address.state'>$(csv_state)</Attribute>
+                        <Attribute Name='address.postal_code'>$(csv_zip)</Attribute>
+                        <Attribute Name='address.country'>$(csv_country)</Attribute>
+                        <Attribute Name='email'>$(csv_email)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>school*.csv</Pattern>
+            <Row>
+                <Object Topic='RDM:SCHOOL'>
+                    <!-- csv_source_id,csv_local_id,csv_name -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='local_id'>$(csv_local_id)</Attribute>
+                        <Attribute Name='name'>$(csv_name)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>term*.csv</Pattern>
+            <Row>
+                <Object Topic='RDM:TERM'>
+                    <!-- csv_source_id,csv_local_id,csv_name,csv_start,csv_end -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='local_id'>$(csv_local_id)</Attribute>
+                        <Attribute Name='name'>$(csv_name)</Attribute>
+                        <Attribute Name='start_date'>$(csv_start)</Attribute>
+                        <Attribute Name='end_date'>$(csv_end)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>course*.csv</Pattern>
+            <Row>
+                <Object Topic='RDM:COURSE'>
+                    <!-- csv_source_id,csv_local_id,csv_name,csv_desc -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='local_id'>$(csv_local_id)</Attribute>
+                        <Attribute Name='title'>$(csv_name)</Attribute>
+                        <Attribute Name='description'>$(csv_desc)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>section*.csv</Pattern>
+            <Row>
+                <Object Topic='RDM:COURSE_SECTION'>
+                    <!-- csv_source_id,csv_local_id,csv_name,csv_desc,csv_term_source_id,csv_course_source_id,csv_org_source_id -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='local_id'>$(csv_local_id)</Attribute>
+                        <Attribute Name='title'>$(csv_name)</Attribute>
+                        <Attribute Name='description'>$(csv_desc)</Attribute>
+                        <Attribute Name='$terms[].$sys.ref_id'>$(csv_term_source_id)</Attribute>
+                        <Attribute Name='$org.$sys.ref_id'>$(csv_org_source_id)</Attribute>
+                        <Attribute Name='$course.$sys.ref_id'>$(csv_course_source_id)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>person_section_membership.csv</Pattern>
+            <Row>
+                <Condition>upperCase('$(csv_person_type)') == 'STUDENT'</Condition>
+                <Object Topic='RDM:STUDENT_COURSE_SECTION_ENROLLMENT'>
+                    <!-- csv_source_id,csv_section_source_id,csv_person_source_id,csv_person_type,csv_start,csv_end,csv_school_year -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='$sys.person_type'>$(csv_person_type)</Attribute>
+                        <Attribute Name='$sys.school_year'>$(csv_school_year)</Attribute>
+                        <Attribute Name='$person.$sys.source_id.csv'>$(csv_person_source_id)</Attribute>
+                        <Attribute Name='$section.$sys.source_id.csv'>$(csv_section_source_id)</Attribute>
+                        <Attribute Name='start_date'>$(csv_start)</Attribute>
+                        <Attribute Name='end_date'>$(csv_end)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+            <Row>
+                <Condition>upperCase('$(csv_person_type)') != 'STUDENT'</Condition>
+                <Object Topic='RDM:STAFF_COURSE_SECTION_ENROLLMENT'>
+                    <!-- csv_source_id,csv_section_source_id,csv_person_source_id,csv_person_type,csv_start,csv_end,csv_school_year -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='$sys.person_type'>$(csv_person_type)</Attribute>
+                        <Attribute Name='$sys.school_year'>$(csv_school_year)</Attribute>
+                        <Attribute Name='$person.$sys.source_id.csv'>$(csv_person_source_id)</Attribute>
+                        <Attribute Name='$section.$sys.source_id.csv'>$(csv_section_source_id)</Attribute>
+                        <Attribute Name='start_date'>$(csv_start)</Attribute>
+                        <Attribute Name='end_date'>$(csv_end)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>                
+        <FileSet>
+            <Pattern Syntax='glob'>person_org_membership.csv</Pattern>
+            <Row>
+                <Condition>upperCase('$(csv_person_type)') != 'STUDENT'</Condition>
+                <Object Topic='RDM:STAFF_SCHOOL_ENROLLMENT'>
+                    <!-- csv_source_id,csv_org_source_id,csv_person_source_id,csv_person_type,csv_start,csv_end,csv_school_year -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='$sys.org_type'>"School"</Attribute>
+                        <Attribute Name='$sys.person_type'>$(csv_person_type)</Attribute>
+                        <Attribute Name='$sys.school_year'>$(csv_school_year)</Attribute>
+                        <Attribute Name='$person.$sys.source_id.csv'>$(csv_person_source_id)</Attribute>
+                        <Attribute Name='$org.$sys.source_id.csv'>$(csv_org_source_id)</Attribute>
+                        <Attribute Name='start_date'>$(csv_start)</Attribute>
+                        <Attribute Name='end_date'>$(csv_end)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+            <Row>
+                <Condition>upperCase('$(csv_person_type)') == 'STUDENT'</Condition>
+                <Object Topic='RDM:STUDENT_SCHOOL_ENROLLMENT'>
+                    <!-- csv_source_id,csv_org_source_id,csv_person_source_id,csv_person_type,csv_start,csv_end,csv_school_year -->
+                    <Attributes>
+                        <Attribute Name='$sys.source_id.csv'>$(csv_source_id)</Attribute>
+                        <Attribute Name='$sys.org_type'>"School"</Attribute>
+                        <Attribute Name='$sys.person_type'>$(csv_person_type)</Attribute>
+                        <Attribute Name='$sys.school_year'>$(csv_school_year)</Attribute>
+                        <Attribute Name='$person.$sys.source_id.csv'>$(csv_person_source_id)</Attribute>
+                        <Attribute Name='$org.$sys.source_id.csv'>$(csv_org_source_id)</Attribute>
+                        <Attribute Name='start_date'>$(csv_start)</Attribute>
+                        <Attribute Name='end_date'>$(csv_end)</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>                
+    </Ingest>
+</Manifest>

@@ -1,0 +1,5 @@
+csv_source_id,csv_local_id,csv_name,csv_desc,csv_term_source_id,csv_org_source_id,csv_course_source_id
+SCT001,S1,Section 1,,TRM001,ORG001,CRS001
+SCT002,S2,Section 2,,TRM002,ORG001,CRS001
+SCT003,S3,Section 3,,TRM003,ORG001,CRS002
+SCT004,S4,Section 4,,TRM004,ORG001,CRS002

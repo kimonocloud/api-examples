@@ -1,0 +1,5 @@
+csv_source_id,csv_local_id,csv_lname,csv_fname,csv_mname,csv_gender
+STU001,100,Bunny,Bug,B,M
+STU002,101,Le Pew,Pepé,,M
+STU003,102,Duck,Donald,D,M
+
