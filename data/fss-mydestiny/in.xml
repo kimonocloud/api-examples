@@ -123,7 +123,7 @@
             </Row>
         </FileSet>
         <FileSet>
-            <Pattern Syntax='glob'>person_section_membership.csv</Pattern>
+            <Pattern Syntax='glob'>person_section_membership*.csv</Pattern>
             <Row>
                 <Condition>upperCase('$(csv_person_type)') == 'STUDENT'</Condition>
                 <Object Topic='RDM:STUDENT_COURSE_SECTION_ENROLLMENT'>
@@ -156,7 +156,7 @@
             </Row>
         </FileSet>
         <FileSet>
-            <Pattern Syntax='glob'>person_org_membership.csv</Pattern>
+            <Pattern Syntax='glob'>person_org_membership*.csv</Pattern>
             <Row>
                 <Condition>upperCase('$(csv_person_type)') != 'STUDENT'</Condition>
                 <Object Topic='RDM:STAFF_SCHOOL_ENROLLMENT'>
