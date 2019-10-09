@@ -25,9 +25,11 @@ import kimono.api.v2.interopdata.model.IngestionResponse;
 import kimono.api.v2.interopdata.model.IngestionState;
 import kimono.api.v2.interopdata.model.IngestionType;
 import kimono.api.v2.interopdata.model.Org;
+import kimono.api.v2.interopdata.model.OrgRefType;
 import kimono.api.v2.interopdata.model.OrgSysType;
 import kimono.api.v2.interopdata.model.Person;
-import kimono.api.v2.interopdata.model.PersonSysType;
+import kimono.api.v2.interopdata.model.PersonMembershipRefType;
+import kimono.api.v2.interopdata.model.PersonRefType;
 import kimono.client.KimonoApiException;
 
 /**
@@ -245,13 +247,13 @@ public class Load {
 			
 			// Assert the student membership of the first school
 			for( int school = 0; school < 2; school++ ) {
-				List<PersonSysType> studentsRollup = schools.get(school).get$Students();
+				List<PersonMembershipRefType> studentsRollup = schools.get(school).get$Students();
 				if( studentsRollup != null ) {
 					studentsRollup.forEach(this::print);
 				}
 				assertSize("listStudentsForSchool["+school+"]",studentsRollup,1);
 	
-				List<PersonSysType> teachersRollup = schools.get(school).get$Teachers();
+				List<PersonMembershipRefType> teachersRollup = schools.get(school).get$Teachers();
 				if( teachersRollup != null ) {
 					teachersRollup.forEach(this::print);
 				}
@@ -274,8 +276,8 @@ public class Load {
 		System.out.println(person.get$Sys().getId()+" "+person.getName().getFirst()+" "+person.getName().getLast());
 	}
 	
-	protected void print( PersonSysType person ) {
-		System.out.println("Person["+person.getPersonType()+"] reference: "+person.getId());
+	protected void print( PersonMembershipRefType person ) {
+		System.out.println("Person["+person.getPersonType()+"] reference (via membership "+person.get$Membership().getId()+"): "+person.getId());
 	}
 	
 	protected void assertSize( String operation, Collection<?> list, int expectedSize ) {
@@ -285,17 +287,17 @@ public class Load {
 		}
 	}
 	
-	protected void assertRef( PersonSysType personRef, Person person ) {
+	protected void assertRef( PersonRefType personRef, Person person ) {
 		if( !personRef.getId().equals(person.get$Sys().getId()) ||
 			!personRef.getPersonType().equals(person.get$Sys().getPersonType()) ) {
 			throw new IllegalStateException("Person reference ("+personRef.getId()+" of type "+personRef.getPersonType()+" does not reference expected Person ("+person.get$Sys().getId()+") of type "+person.get$Sys().getPersonType());
 		}
 	}
 	
-	protected void assertRef( OrgSysType orgRef, OrgSysType org ) {
-		if( !orgRef.getId().equals(org.getId()) ||
-			!orgRef.getOrgType().equals(org.getOrgType()) ) {
-			throw new IllegalStateException("Org reference ("+orgRef.getId()+" of type "+orgRef.getOrgType()+" does not reference expected Org ("+org.getId()+") of type "+org.getOrgType());
+	protected void assertRef( OrgRefType orgRef, Org org ) {
+		if( !orgRef.getId().equals(org.get$Sys().getId()) ||
+			!orgRef.getOrgType().equals(org.get$Sys().getOrgType()) ) {
+			throw new IllegalStateException("Org reference ("+orgRef.getId()+" of type "+orgRef.getOrgType()+" does not reference expected Org ("+org.get$Sys().getId()+") of type "+org.get$Sys().getOrgType());
 		}
 	}
 	
