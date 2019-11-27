@@ -1,0 +1,17 @@
+csv_source_id,csv_section_id,name
+GC001,SCT001,Tests
+GC002,SCT001,Homework
+GC003,SCT001,Classwork
+GC004,SCT001,Participation
+GC005,SCT002,Tests
+GC006,SCT002,Homework
+GC007,SCT002,Classwork
+GC008,SCT002,Participation
+GC009,SCT003,Tests
+GC010,SCT003,Homework
+GC011,SCT003,Classwork
+GC012,SCT003,Participation
+GC013,SCT004,Tests
+GC014,SCT004,Homework
+GC015,SCT004,Classwork
+GC016,SCT004,Participation
