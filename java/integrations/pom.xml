@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.kimonocloud</groupId>
 			<artifactId>api-client-kit</artifactId>
-			<version>${api.version}</version>
+			<version>${api.kit.version}</version>
 		</dependency>		
  	</dependencies>
 </project>
