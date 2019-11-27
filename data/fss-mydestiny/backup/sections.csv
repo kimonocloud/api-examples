@@ -1,0 +1,6 @@
+csv_source_id,csv_local_id,csv_name,csv_desc,csv_term_source_id,csv_org_source_id,csv_course_source_id,csv_class_type
+SCT001,S1,Section 1,description 1,TRM001,ORG001,CRS001,scheduled
+SCT003,S3,Section 3,description 3,TRM001,ORG001,CRS002,scheduled
+SCT005,S5,Section 5,description 5,TRM001,ORG001,CRS003,scheduled
+SCT006,S6,Section 6,description 6,TRM001,ORG001,CRS004,scheduled
+SCT007,S7,Section 7,description 7,TRM001,ORG001,CRS005,scheduled

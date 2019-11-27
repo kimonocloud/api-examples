@@ -1,0 +1,3 @@
+csv_source_id,csv_local_id,csv_username,csv_lname,csv_fname,csv_mname,csv_gender,csv_addr,csv_city,csv_state,csv_zip,csv_aup,csv_birthdate,csv_email
+TCH201,9940,scarlet.witch,Witch,Scarlet,,F,1 Elm St,Salt Lake City,UT,84101,false,04/03/1937,scarlet@marvel.com
+TCH202,9941,doctor.strange,Strange,Doctor,,M,1 Elm St,Salt Lake City,UT,84101,true,03/02/1955,strange@marvel.com

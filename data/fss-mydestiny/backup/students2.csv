@@ -1,0 +1,6 @@
+csv_source_id,csv_local_id,csv_username,csv_lname,csv_fname,csv_mname,csv_gender
+STU201,200,iron.man,Man,Iron,,M
+STU202,201,captain.marvel,Marvel,Captain,,F
+STU203,202,black.panther,Panther,Black,,M
+STU204,203,spider.man,Man,Spider,,M
+STU205,204,black.widow,Widow,Black,,F

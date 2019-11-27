@@ -117,7 +117,6 @@
                         <Attribute Name='$terms[].$sys.ref_id'>$(csv_term_source_id)</Attribute>
                         <Attribute Name='$org.$sys.ref_id'>$(csv_org_source_id)</Attribute>
                         <Attribute Name='$course.$sys.ref_id'>$(csv_course_source_id)</Attribute>
-                        <Attribute Name='$ext.grades'>$(csv_grade_levels)</Attribute>
                         <Attribute Name='class_type'>$(csv_class_type)</Attribute>
                     </Attributes>
                 </Object>
@@ -171,7 +170,6 @@
                         <Attribute Name='$org.$sys.source_id.csv'>$(csv_org_source_id)</Attribute>
                         <Attribute Name='start_date'>$(csv_start)</Attribute>
                         <Attribute Name='end_date'>$(csv_end)</Attribute>
-                        <Attribute Name='grade'>$(csv_grade)</Attribute>
                     </Attributes>
                 </Object>
             </Row>
@@ -188,7 +186,6 @@
                         <Attribute Name='$org.$sys.source_id.csv'>$(csv_org_source_id)</Attribute>
                         <Attribute Name='start_date'>$(csv_start)</Attribute>
                         <Attribute Name='end_date'>$(csv_end)</Attribute>
-                        <Attribute Name='grade'>$(csv_grade)</Attribute>
                     </Attributes>
                 </Object>
             </Row>

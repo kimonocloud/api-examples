@@ -1,0 +1,6 @@
+csv_source_id,csv_local_id,csv_username,csv_lname,csv_fname,csv_mname,csv_gender
+STU001,100,bug.bunny,Bunny,Bugs,B,M
+STU002,101,pepe.le.pew,Le Pew,Pepay,,M
+STU003,102,donald.duck,Duck,Donald,D,M
+STU004,103,daisy.duck,Duck,Daisy,,F
+STU005,104,minnie.mouse,Mouse,Minnie,,F
