@@ -1,3 +1,0 @@
-csv_source_id,csv_local_id,csv_username,csv_lname,csv_fname,csv_mname,csv_gender,csv_addr,csv_city,csv_state,csv_zip,csv_aup,csv_birthdate,csv_email
-TCH001,9940,petunia.pig,Pig,Petunia,,F,1 Elm St,Salt Lake City,UT,84101,false,04/03/1937,petunia@kimonocloud.com
-TCH002,9941,porky.pig,Pig,Porky,,M,1 Elm St,Salt Lake City,UT,84101,true,03/02/1955,porky@kimonocloud.com
