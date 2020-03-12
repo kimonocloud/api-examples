@@ -1,0 +1,214 @@
+<!-- 	
+	Sample Grades Producer Integration
+ -->
+
+<IntegrationBlueprint Name='Grades API Example' Version='1.0.1' SchemaVersion='2.0.0'>
+	<Integration>
+		<Title>Grades API Example</Title>
+
+		<!-- 
+			If you're building an Integration that implements the Grades Producer
+			API the IdSpace, Capabilities, and Compatibility elements below are
+			required. See also the GradingCategory topic at the end of this file 
+			to receive Grading Categories.
+		-->
+
+		<!-- 
+			A unique namespace for $sys.app_id.<idspace> identifiers. You only
+			need to register an IdSpace if you will be implementing the Grades
+			Producer API or otherwise storing your own identifiers in Kimono's
+			ID Service. 
+		-->
+		<IdSpace>example</IdSpace> 
+
+		<!--
+			Indicate this Integration can play the role of a Grades Producer
+		-->
+		<Capabilities>
+			<Capability Id='GradesProducer'/>
+		</Capabilities>
+
+		<!--
+			Restrict installation into Interop Clouds that support Grades data model
+		-->
+		<Compatibility>
+			<DataModel Schema="GDM" Version="*" />
+		</Compatibility>		
+
+	</Integration>
+
+	<!--
+		This template defines all topics with the Core Attributes defined by Kimono.
+		You can change the name of any attribute, create additional attributes, and
+		remove unwanted attributes to customize how data is presented for your
+		application API. In addition, most Integrations benefit from defining data
+		validation rules to prevent illegal data from reaching the application API.
+		
+		Refer to xxx for a description of the Integration Blueprint schema.
+	-->
+
+	<Topics>
+		<Topic Name='LEA'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='School'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+
+				<!-- 
+					The following rollups are also available but are not enabled by default.
+					This speeds up the performance of your Integration. The Orgs in which a
+					Student or Teacher is a member of can be determined from the Student.$schools
+					and Teacher.$schools rollups. If you need "both sides" of the person/org
+					membership relationship, uncomment one or both of these attributes.
+				-->
+				<!-- <Attribute Name='$teachers'/> -->
+				<!-- <Attribute Name='$students'/> -->
+
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Student'>
+			<Attributes>
+				<!-- Enable the PersonOrgMembership rollup. See the note at PersonOrgMembership below. -->
+				<Attribute Name='$schools'/>
+
+				<!-- Enable the PersonSectionMembership rollup. See the note at PersonSectionMembership below. -->
+				<Attribute Name='$sections'/>
+
+				<Attribute Name='local_id'/>
+				<Attribute Name='state_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+				<Attribute Name='aup'/>
+				<Attribute Name='grad_year'/>
+			</Attributes>
+		</Topic>
+
+		<!-- <Topic Name='Teacher'> -->
+		<Topic Name='Staff'>
+			<Attributes>
+				<!-- Enable the PersonOrgMembership rollup. See the note at PersonOrgMembership below. -->
+				<Attribute Name='$schools'/>
+
+				<!-- Enable the PersonSectionMembership rollup. See the note at PersonSectionMembership below. -->
+				<Attribute Name='$sections'/>
+
+				<Attribute Name='local_id'/>
+				<Attribute Name='state_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+			</Attributes>
+		</Topic>
+
+		<!-- 
+			Note the Consumer role is disabled to prevent Data Events from being sent
+			when granular membership details change. Instead, the Person.$schools rollup is 
+			enabled in the Student and Teacher mappings above. This means you will receive a Data
+			Event whenever these arrays change but will not receive individual PersonOrgMembership
+			events in your event stream. If you want to consume granular person/org membership 
+			as independent entities, remove the Person.$schools mappings and set the Consumer role 
+			to "enabled" below.
+		-->
+	  	<!-- <Topic Name='PersonOrgMembership'> -->
+	  	<Topic Name='StudentSchoolEnrollment'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+	  	<Topic Name='StaffSchoolEnrollment'> 
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+
+		<Topic Name='Term'>
+			<Attributes>
+				<Attribute Name='name'/>
+				<Attribute Name='description'/>
+				<Attribute Name='start_date'/>
+				<Attribute Name='end_date'/>
+				<Attribute Name='status'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+			</Attributes>
+		</Topic>
+
+		<Topic Name='Course'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='title'/>
+				<Attribute Name='description'/>
+			</Attributes>
+		</Topic>
+
+		<!-- <Topic Name='Section'> -->
+		<Topic Name='CourseSection'>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='title'/>
+				<Attribute Name='description'/>
+				<Attribute Name='$terms'/>
+				<Attribute Name='$course'/>
+				<Attribute Name='$org'/>
+
+				<!-- Rollups -->
+				<Attribute Name='$teachers'/>
+				<Attribute Name='$students'/>
+			</Attributes>
+		</Topic>
+
+		<!-- 
+			Note the Consumer role is disabled to prevent Data Events from being sent
+			when granular membership details change. Instead, the Person.$sections rollup is 
+			enabled in the Student and Teacher mappings above. This means you will receive a Data
+			Event whenever these arrays change but will not receive the individual 
+			PersonSectionMembership entities in your event stream. If you want to consume granular
+			person/section membership as independent entities, remove the Person.$sections mappings 
+			and set the Consumer role to "enabled" below.
+		-->
+	  	<!-- <Topic Name='PersonSectionMembership'> -->
+	  	<Topic Name='StudentCourseSectionEnrollment'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+	  	<Topic Name='StaffCourseSectionEnrollment'>
+	  		<Roles>
+	  			<Subscriber/>
+	  			<Consumer Support="disabled" />
+	  		</Roles>
+	  	</Topic>
+
+		<Topic Name='GradingCategory'>
+			<Attributes>
+				<Attribute Name='name'/>
+				<Attribute Name='$section'/>
+				<Attribute Name='$term'/>
+				<Attribute Name='$school'/>
+			</Attributes>
+		</Topic>		  
+	  
+	</Topics>
+
+</IntegrationBlueprint>

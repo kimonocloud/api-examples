@@ -1,20 +1,11 @@
 <!-- 	
-	Sample Integration: Blind Sync synchronization mode
+	Sample Integration
  -->
 
-<IntegrationBlueprint Name='Blind Sync' Version='1.0.3' SchemaVersion='2.0.0'>
+<IntegrationBlueprint Name='API Example' Version='1.0.3' SchemaVersion='2.0.0'>
 	<Integration>
-		<Title>Blind Sync Example</Title>
-		<IdSpace>example</IdSpace>
+		<Title>API Example</Title>
 	</Integration>
-
-	<!--
-		Specify Blind Sync mode.
-	-->
-
-	<Sync>
-		<Events Mode='blind'/>
-	</Sync>
 
 	<!--
 		This template defines all topics with the Core Attributes defined by Kimono.
@@ -46,8 +37,8 @@
 				<!-- 
 					The following rollups are also available but are not enabled by default.
 					This speeds up the performance of your Integration. The Orgs in which a
-					Student or Teacher is a member of can be determined from the Student.$orgs
-					and Teacher.$orgs rollups. If you need "both sides" of the person/org
+					Student or Teacher is a member of can be determined from the Student.$schools
+					and Teacher.$schools rollups. If you need "both sides" of the person/org
 					membership relationship, uncomment one or both of these attributes.
 				-->
 				<!-- <Attribute Name='$teachers'/> -->
@@ -99,11 +90,11 @@
 
 		<!-- 
 			Note the Consumer role is disabled to prevent Data Events from being sent
-			when granular membership details change. Instead, the Person.$orgs rollup is 
+			when granular membership details change. Instead, the Person.$schools rollup is 
 			enabled in the Student and Teacher mappings above. This means you will receive a Data
 			Event whenever these arrays change but will not receive individual PersonOrgMembership
 			events in your event stream. If you want to consume granular person/org membership 
-			as independent entities, remove the Person.$orgs mappings and set the Consumer role 
+			as independent entities, remove the Person.$schools mappings and set the Consumer role 
 			to "enabled" below.
 		-->
 	  	<!-- <Topic Name='PersonOrgMembership'> -->
@@ -185,7 +176,6 @@
 	  			<Consumer Support="disabled" />
 	  		</Roles>
 	  	</Topic>
-	  
 	</Topics>
 
 </IntegrationBlueprint>
