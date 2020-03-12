@@ -29,6 +29,7 @@ import kimono.api.v2.interopdata.model.OrgRefType;
 import kimono.api.v2.interopdata.model.OrgSysType;
 import kimono.api.v2.interopdata.model.Person;
 import kimono.api.v2.interopdata.model.PersonMembershipRefType;
+import kimono.api.v2.interopdata.model.PersonMembershipSys;
 import kimono.api.v2.interopdata.model.PersonRefType;
 import kimono.client.KimonoApiException;
 
@@ -247,15 +248,15 @@ public class Load {
 			
 			// Assert the student membership of the first school
 			for( int school = 0; school < 2; school++ ) {
-				List<PersonMembershipRefType> studentsRollup = schools.get(school).get$Students();
+				List<PersonMembershipSys> studentsRollup = schools.get(school).get$Students();
 				if( studentsRollup != null ) {
-					studentsRollup.forEach(this::print);
+					studentsRollup.forEach(s -> print(s.get$Sys()));
 				}
 				assertSize("listStudentsForSchool["+school+"]",studentsRollup,1);
 	
-				List<PersonMembershipRefType> teachersRollup = schools.get(school).get$Teachers();
+				List<PersonMembershipSys> teachersRollup = schools.get(school).get$Teachers();
 				if( teachersRollup != null ) {
-					teachersRollup.forEach(this::print);
+					teachersRollup.forEach(t -> print(t.get$Sys()));
 				}
 				assertSize("listTeachersForSchool["+school+"]",teachersRollup,1);
 			}

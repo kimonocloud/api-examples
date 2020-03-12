@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.kimonocloud</groupId>
 			<artifactId>api-client-kit</artifactId>
-			<version>${api.kit.version}</version>
+			<version>${api.version}</version>
 		</dependency>		
 		<dependency>
 		    <groupId>com.vladsch.flexmark</groupId>

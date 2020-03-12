@@ -7,9 +7,9 @@
 		<version>2.0-SNAPSHOT</version>
 	</parent>
 
- 	<artifactId>api-example-events</artifactId>
- 	<name>Kimono API Example: Events</name>
- 	<description>Demonstrates how to use the Events API</description>
+ 	<artifactId>api-example-grades</artifactId>
+ 	<name>Kimono API Example: Grades</name>
+ 	<description>Demonstrates how to use the Grades API</description>
  	<packaging>jar</packaging>
 
 	<dependencies>
