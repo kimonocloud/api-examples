@@ -188,6 +188,20 @@
                     </Attributes>
                 </Object>
             </Row>
-        </FileSet>                
+        </FileSet>
+        <FileSet>
+            <Pattern Syntax='glob'>categories*.csv</Pattern>
+            <Row>
+                <Object Topic='GDM:GRADING_CATEGORY'>
+                    <Attributes>
+                        <Attribute Name="$sys.source_id.csv">csv_source_id</Attribute>
+                        <Attribute Name="$section.$sys.source_id">csv_section</Attribute>
+                        <Attribute Name="$school.$sys.source_id">scv_school</Attribute>
+                        <Attribute Name="$term.$sys.source_id">csv_term</Attribute>
+                        <Attribute Name="name">csv_name</Attribute>
+                    </Attributes>
+                </Object>
+            </Row>
+        </FileSet>
     </Ingest>
 </Manifest>
