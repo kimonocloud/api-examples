@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import kimono.api.v2.grades.model.Assignment;
 import kimono.api.v2.grades.model.AssignmentScore;
 import kimono.api.v2.grades.model.AssignmentSys;
+import kimono.api.v2.grades.model.GradesCategoryRefType;
 import kimono.api.v2.grades.model.GradesRefType;
 import kimono.api.v2.grades.model.GradesRefTypeSys;
 import kimono.api.v2.interopdata.model.GradingCategory;
@@ -46,7 +47,7 @@ public class InMemoryGradebook {
 					Assignment assignment = new Assignment();
 					assignment.setName(category.getName() + " Assignment");
 					assignment.set$Sys(createSysType(Integer.toString(assignmentIdSequence++)));
-					assignment.set$Category(createRefType(category.get$Sys().getId()));
+//					assignment.set$Category(createCategoryRefTypeByName("MyAppCategory"));
 					assignment.set$Section(createRefType(sectionId));
 					assignment.setAvailableAt(OffsetDateTime.now(ZoneOffset.UTC));
 					assignment.setDescription("This is an assignment for the " + category.getName() + " category.");
@@ -83,12 +84,26 @@ public class InMemoryGradebook {
 		}
 		assignment.setScores(scores);
 	}
-
+	
 	private GradesRefType createRefType(UUID kimonoId) {
 		GradesRefType refType = new GradesRefType();
 		GradesRefTypeSys sys = new GradesRefTypeSys();
 		sys.setId(kimonoId);
 		refType.set$Sys(sys);
+		return refType;
+	}
+	
+	private GradesCategoryRefType createCategoryRefType(UUID kimonoId) {
+		GradesCategoryRefType refType = new GradesCategoryRefType();
+		GradesRefTypeSys sys = new GradesRefTypeSys();
+		sys.setId(kimonoId);
+		refType.set$Sys(sys);
+		return refType;
+	}
+	
+	private GradesCategoryRefType createCategoryRefTypeByName(String name) {
+		GradesCategoryRefType refType = new GradesCategoryRefType();
+		refType.setName(name);
 		return refType;
 	}
 	
