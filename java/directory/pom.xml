@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.kimonocloud</groupId>
 		<artifactId>api-examples</artifactId>
-		<version>2.0.21</version>
+		<version>2.0.23</version>
 	</parent>
 
  	<artifactId>api-example-directory</artifactId>
