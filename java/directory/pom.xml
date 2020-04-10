@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.kimonocloud</groupId>
 		<artifactId>api-examples</artifactId>
-		<version>2.0-SNAPSHOT</version>
+		<version>2.0.21</version>
 	</parent>
 
  	<artifactId>api-example-directory</artifactId>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.kimonocloud</groupId>
 			<artifactId>api-client-kit</artifactId>
-			<version>${api.version}</version>
+			<version>${project.version}</version>
 		</dependency>		
 		<dependency>
 		    <groupId>com.vladsch.flexmark</groupId>
