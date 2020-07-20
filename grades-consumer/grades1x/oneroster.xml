@@ -1,0 +1,455 @@
+<!--
+    Example of a Generic Grades Consumer API Blueprint that can be used with OneRoster 1.1 
+-->
+
+<ApiBlueprint Name='oneroster' Version='0.9.1' SchemaVersion='1.0.0'>
+
+    <Definitions>
+    
+        <!-- 
+            Required headers for OneRoster request
+        -->
+
+        <Headers Id='JsonRequest' Default='true'>
+            <Header Name='Content-Type'>application/json</Header>
+            <Header Name='Accept'>application/json</Header>
+        </Headers>
+
+        <!--
+            Pagination settings for GET requests. Define how the concepts of "page"
+            and "page size" are handled by the application. In OneRoster the page is a 
+            request parameter named Offset that begins with a value of 1, and the page 
+            size is a request parameter named Limit that has a value of 100.
+        -->
+
+        <Pagination Id='OneRosterPaging'>
+            <Page>
+                <Param>Offset</Param>
+                <Value>1</Value>
+            </Page>
+            <PageSize>
+                <Param>Limit</Param>
+                <Value>100</Value>
+            </PageSize>
+        </Pagination>
+
+        <!-- 
+            Default JSON response. OneRoster 1.1 responses are in this form:
+            
+            {
+                "object_type": [ ]
+            }
+
+            The "$.*" jsonpath will select this node
+        -->
+        <Response Id='OneRosterResponse' Default='true'>
+            <JsonPath>$.*</JsonPath>
+        </Response>
+
+    </Definitions>
+
+    <Schema>
+        <JsonSchema>
+            {
+                "definitions": {
+                    "GUIDRef": {
+                        "title": "GUIDRef",
+                        "type": "object",
+                        "properties": {
+                            "href": {
+                                "type": "string"
+                            },
+                            "sourcedId": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        </JsonSchema>
+    </Schema>
+
+    <Objects>
+
+
+        <!-- 
+            OneRoster 1.1 Line Item Category 
+        -->
+        <Object Name='AppCategory'>
+
+            <Schema>
+                <JsonSchema>
+                    {
+                        "title": "AppCategory",
+                        "description": "OneRoster 1.1 Line Item Category",
+                        "type": "object",
+                        "properties": {
+                            "sourcedId": {
+                                "type": "string",
+                                "description": "Identifier (sourcedId) of this category in the application"
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Category title"
+                            }
+                        }
+                    }
+                </JsonSchema>
+            </Schema>
+        
+            <Transforms>
+                <!--
+                    How to transform from a Grades 1.1 GradesCategory to a OneRoster 1.1 Line Item Category
+
+                    GradesCategory.v1           OneRoster Line Item Category
+
+                    source_id                   sourcedId
+                    school_id                   n/a
+                    section_id                  n/a
+                    term_id                     n/a
+                    description                 title
+
+                    {
+                        "sourcedId": "source_id",
+                        "title": "description"
+                    }
+
+                -->
+                <Transform From='GradesCategory.v1'>
+                    <Json>
+                        {
+                            "sourcedId": "source_id",
+                            "status": ""active"",
+                            "dateLastModified": "updated_at",
+                            "title": "description"
+                        }
+                    </Json>
+                </Transform>
+            </Transforms>
+        </Object>
+
+        <!-- 
+            OneRoster 1.1 Line Item 
+        -->
+        <Object Name='AppAssignment'>
+            <Schema>
+                <JsonSchema>
+                    {
+                        "title": "AppAssignment",
+                        "description": "OneRoster Line Item",
+                        "type": "object",
+                        "properties": {
+                            "sourcedId": {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Assignment title",
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "assignDate": {
+                                "type": "string"
+                            },
+                            "dueDate": {
+                                "type": "string"
+                            },
+                            "class": {
+                                "type": "object",
+                                "$ref": "#/definitions/GUIDRef"
+                            },
+                            "category": {
+                                "type": "object",
+                                "$ref": "#/definitions/GUIDRef"
+                            },
+                            "gradingPeriod": {
+                                "type": "object",
+                                "$ref": "#/definitions/GUIDRef"
+                            },
+                            "resultValueMin": {
+                                "type": "number"
+                            }
+                            "resultValueMax": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                </JsonSchema>
+            </Schema>
+
+            <Transforms>
+                <!-- 
+                    How to transform from a Grades Assignment (Grades 1.x) to a OneRoster 1.1 Line Item.
+                    Note additional attributes may be available for specific Grades Producers,
+                    so if you're implementing a specific solution between two products be sure
+                    and consult the Grades Producer to see what data it provides.
+
+                    GradesAssignment                OneRoster Line Item
+
+                    source_id                       sourcedId               
+                    label                           title
+                    description                     description
+                    available_at                    assignDate
+                    due_at                          dueDate
+                    section_source_id               class
+                    category_source_id              category
+                    term_source_id                  gradingPeriod
+                    points_possible                 resultValueMax
+
+                    {
+                        "sourcedId": "source_id",
+                        "status": ""active"",
+                        "dateLastModified": "updated_at",
+                        "title": "label",
+                        "description": "description",
+                        "assignDate": "available_at",
+                        "dueDate": "due_at",
+                        "category": {
+                            "sourcedId": "category_source_id",
+                            "type": ""category""
+                        },
+                        "class": {
+                            "sourcedId": "section_source_id",
+                            "type": ""class""
+                        },
+                        "gradingPeriod": {
+                            "sourcedId": "term_source_id",
+                            "type": ""academicSession""
+                        },
+                        "resultValueMin": "0.0",
+                        "resultValueMax": "points_possible"
+                    }
+                -->
+                <Transform From='GradesAssignment.1x'>
+                    <Json>
+                        {
+                            "sourcedId": "source_id",
+                            "status": ""active"",
+                            "dateLastModified": "updated_at",
+                            "title": "label",
+                            "description": "description",
+                            "assignDate": "available_at",
+                            "dueDate": "due_at",
+                            "category": {
+                                "sourcedId": "category_source_id",
+                                "type": ""category""
+                            },
+                            "class": {
+                                "sourcedId": "section_source_id",
+                                "type": ""class""
+                            },
+                            "gradingPeriod": {
+                                "sourcedId": "term_source_id",
+                                "type": ""academicSession""
+                            },
+                            "resultValueMin": "0.0",
+                            "resultValueMax": "points_possible"
+                        }
+                    </Json>
+                </Transform>
+            </Transforms>
+        </Object>
+
+        <!-- 
+            OneRoster 1.1 Result 
+        -->
+        <Object Name='AppScore'>
+            <Schema>
+                {
+                    "title": "AppScore",
+                    "description": "OneRoster Result",
+                    "type": "object",
+                    "properties": {
+                        "sourcedId": {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "lineItem": {
+                            "type": "object",
+                            "$ref": "#/definitions/GUIDRef"
+                        },
+                        "student": {
+                            "type": "object",
+                            "$ref": "#/definitions/GUIDRef"
+                        },
+                        "scoreStatus": {
+                            "type": "string"
+                        },
+                        "score": {
+                            "type": "number"
+                        },
+                        "scoreDate": {
+                            "type": "string"
+                        },
+                        "comment": {
+                            "type": "string"
+                        }
+                    }
+                }
+            </Schema>
+
+            <Transforms>
+                <!-- 
+                    How to transform from a Grades Score (Grades 1.x) to a OneRoster 1.1 Result.
+                    Note additional attributes may be available for specific Grades Producers,
+                    so if you're implementing a specific solution between two products be sure
+                    and consult the Grades Producer to see what data it provides.
+
+                    GradesScore                     OneRoster Result
+
+                    score.app_id                    sourcedId               
+                    section.section_source_id       lineItem
+                    score.student_source_id         student
+                                                    scoreStatus
+                    score.score                     score
+                    score.submission_date           scoreDate
+                    score.comments                  comment
+
+                    {
+                        "sourcedId": "app_id",
+                        "status": ""active"",
+                        "dateLastModified": "score.submitted_date",
+                        "lineItem": {
+                            "sourcedId": "section_source_id",
+                            "type": ""lineItem""
+                        },
+                        "student": {
+                            "sourcedId": "student_source_id",
+                            "type" ""user"",
+                        },
+                        "score": "score",
+                        "scoreStatus": "", // TODO: ?
+                        "scoreDate": "submitted_date",
+                        "comment": "@combine(score.comments)"
+                    }
+                -->
+                <Transform From='GradesScore.1x'>
+                    <Json>
+                        {
+                            "sourcedId": "score.app_id",
+                            "status": ""active"",
+                            "dateLastModified": "score.submitted_date",
+                            "lineItem": {
+                                "sourcedId": "section.section_source_id",
+                                "type": ""lineItem""
+                            },
+                            "student": {
+                                "sourcedId": "score.student_source_id",
+                                "type" ""user"",
+                            },
+                            "score": "score.score",
+                            "scoreStatus": "",
+                            "scoreDate": "score.submitted_date",
+                            "comment": "score.comments[0]"
+                        }                    
+                    </Json>
+                </Transform>
+            </Transforms>
+        </Object>        
+    </Objects>
+
+    <Routines>
+
+        <!-- 
+            ===========================================
+            Grading Categories
+            =========================================== 
+        -->
+
+        <Routine Id='QueryCategories'>
+            <List>
+                <Url>{{$props.url}}/categories</Url>
+                <Headers Id='JsonRequest'/>
+                <Pagination Id='OneRosterPaging'/>
+                <Response Id='OneRosterResponse'/>
+            </List>
+        </Routine>
+
+        <!-- 
+            ===========================================
+            Assignments
+            =========================================== 
+        -->
+
+        <!-- 
+            Attempt to create an AppAssignment resource. Called when Kimono does not
+            have an app_id on file for the assignment (if an app_id is on file, the
+            UpdateAssignment routine is called instead). If successfully created (the
+            service returns a 402 status), follow the URL to get and return the newly
+            created AppAssignment. Otherwise, if an error occurs (e.g. there already
+            exists this assignment on the server?), fetch and return it. 
+        -->
+
+        <Routine Id='CreateAssignment'>
+            <Create>
+                <Method>put</Method>
+                <Url>{{$props.url}}/lineItems/$($request.data.sourcedId)</Url>
+                <Response Key='data'>
+                    <!-- Expect response: { "lineItem": { ... } } -->
+                    <JsonPath>$['lineItem']</JsonPath>
+                </Response>
+            </Create>
+
+            <!-- 
+                Kimono Grades needs to keep track of the application's identifier for
+                each assignment. Since this data is not already provided via rostering 
+                (the other related objects, including Class, School, User are already 
+                known via Kimono rostering activity), we need to identify the ID here
+                and ask Kimono to record it. This can be done with the Identifiers
+                element. 
+                
+                NOTE: Grades 1.x also wants to know the Class that is associated
+                with that assignment and we can attach that as metadata under the key
+                "section_id". This may be removed as a requirement in the future, but
+                for now make sure to include the section_id metadata below.
+
+                TODO: Determine if the metadata is a requirement of Grades 2
+            -->
+            <Identifiers>
+                <AppId>$.$response.data.sourcedId</AppId>
+                <Meta Key='section_id'>$.$response.data.class.sourcedId</Meta>
+            </Identifiers>
+        </Routine>
+
+        <!-- 
+            Attempt to update an AppAssignment resource. Called when Kimono already 
+            has an app_id on file for the assignment (if an app_id is not on file, the
+            CreateAssignment routine is called instead).
+        -->
+
+        <Routine Id='UpdateAssignment'>
+            <Update>
+                <Method>put</Method>
+                <Url>{{$props.url}}/lineItems/{{$request.data.sourcedId}}</Url>
+            </Update>
+        </Routine>
+
+        <!-- 
+            ===========================================
+            Scores
+            =========================================== 
+        -->
+
+        <!-- 
+            OneRoster 1.1 does not appear to support bulk mode processing, so here
+            we only implement the singleton PostGrade routine. Kimono will attempt
+            to asynchronously post many grades concurrently. To influence the number
+            of concurrent calls, or to disable concurrent calls, you can set the 
+            X and Y actor properties.
+        -->
+
+        <Routine Id='PostGrade'>
+            <Create>
+                <Method>put</Method>
+                <Url>{{$props.url}}/results/{{$request.data.score.source_id}}</Url>
+            </Create>
+        </Routine>
+
+    </Routines>
+    
+</ApiBlueprint>
