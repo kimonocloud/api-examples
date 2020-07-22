@@ -103,29 +103,44 @@
             <Transforms>
                 <!--
                     How to transform from a Grades 1.1 GradesCategory to a OneRoster 1.1 Line Item Category
-
-                    GradesCategory.v1           OneRoster Line Item Category
-
-                    source_id                   sourcedId
-                    school_id                   n/a
-                    section_id                  n/a
-                    term_id                     n/a
-                    description                 title
+                    NOTE: Grades 1.x requires a value for the school.consumer_id, section.consumer_id, 
+                    and term.consumer_id. Since these relationships are not defined in OneRoster, we 
+                    set them all to an asterisk (any value will do).
 
                     {
-                        "sourcedId": "source_id",
-                        "title": "description"
+                        "id": {
+                            "consumer_id": "sourcedId"
+                        },
+                        "title": "title",
+                        "school": {
+                            "consumer_id": "*"
+                        },
+                        "section": {
+                            "consumer_id": "*"
+                        },
+                        "term": {
+                            "consumer_id": "*"
+                        }
                     }
 
                 -->
                 <Transform From='GradesCategory.v1'>
                     <Json>
-                        {
-                            "sourcedId": "source_id",
-                            "status": ""active"",
-                            "dateLastModified": "updated_at",
-                            "title": "description"
+                    {
+                        "id": {
+                            "consumer_id": "sourcedId"
+                        },
+                        "title": "title",
+                        "school": {
+                            "consumer_id": "*"
+                        },
+                        "section": {
+                            "consumer_id": "*"
+                        },
+                        "term": {
+                            "consumer_id": "*"
                         }
+                    }
                     </Json>
                 </Transform>
             </Transforms>
@@ -189,65 +204,51 @@
                     so if you're implementing a specific solution between two products be sure
                     and consult the Grades Producer to see what data it provides.
 
-                    GradesAssignment                OneRoster Line Item
-
-                    source_id                       sourcedId               
-                    label                           title
-                    description                     description
-                    available_at                    assignDate
-                    due_at                          dueDate
-                    section_source_id               class
-                    category_source_id              category
-                    term_source_id                  gradingPeriod
-                    points_possible                 resultValueMax
-
                     {
-                        "sourcedId": "source_id",
+                        "sourcedId": "id.producer_id",
                         "status": ""active"",
-                        "dateLastModified": "updated_at",
+                        "dateLastModified": "created_at",
                         "title": "label",
-                        "description": "description",
                         "assignDate": "available_at",
                         "dueDate": "due_at",
                         "category": {
-                            "sourcedId": "category_source_id",
+                            "sourcedId": "category.consumer_id",
                             "type": ""category""
                         },
                         "class": {
-                            "sourcedId": "section_source_id",
+                            "sourcedId": "section.source_id",
                             "type": ""class""
                         },
                         "gradingPeriod": {
-                            "sourcedId": "term_source_id",
+                            "sourcedId": "term.source_id",
                             "type": ""academicSession""
                         },
-                        "resultValueMin": "0.0",
+                        "resultValueMin": 0.0,
                         "resultValueMax": "points_possible"
                     }
                 -->
                 <Transform From='GradesAssignment.1x'>
                     <Json>
                         {
-                            "sourcedId": "source_id",
+                            "sourcedId": "id.producer_id",
                             "status": ""active"",
-                            "dateLastModified": "updated_at",
+                            "dateLastModified": "created_at",
                             "title": "label",
-                            "description": "description",
                             "assignDate": "available_at",
                             "dueDate": "due_at",
                             "category": {
-                                "sourcedId": "category_source_id",
+                                "sourcedId": "category.consumer_id",
                                 "type": ""category""
                             },
                             "class": {
-                                "sourcedId": "section_source_id",
+                                "sourcedId": "section.source_id",
                                 "type": ""class""
                             },
                             "gradingPeriod": {
-                                "sourcedId": "term_source_id",
+                                "sourcedId": "term.source_id",
                                 "type": ""academicSession""
                             },
-                            "resultValueMin": "0.0",
+                            "resultValueMin": 0.0,
                             "resultValueMax": "points_possible"
                         }
                     </Json>
@@ -295,57 +296,47 @@
 
             <Transforms>
                 <!-- 
-                    How to transform from a Grades Score (Grades 1.x) to a OneRoster 1.1 Result.
+                    How to transform from a GradesScoreSubmission (Grades 1.x) to a OneRoster 1.1 Result.
                     Note additional attributes may be available for specific Grades Producers,
                     so if you're implementing a specific solution between two products be sure
                     and consult the Grades Producer to see what data it provides.
 
-                    GradesScore                     OneRoster Result
-
-                    score.app_id                    sourcedId               
-                    section.section_source_id       lineItem
-                    score.student_source_id         student
-                                                    scoreStatus
-                    score.score                     score
-                    score.submission_date           scoreDate
-                    score.comments                  comment
-
-                    {
-                        "sourcedId": "app_id",
-                        "status": ""active"",
-                        "dateLastModified": "score.submitted_date",
-                        "lineItem": {
-                            "sourcedId": "section_source_id",
-                            "type": ""lineItem""
-                        },
-                        "student": {
-                            "sourcedId": "student_source_id",
-                            "type" ""user"",
-                        },
-                        "score": "score",
-                        "scoreStatus": "", // TODO: ?
-                        "scoreDate": "submitted_date",
-                        "comment": "@combine(score.comments)"
-                    }
-                -->
-                <Transform From='GradesScore.1x'>
-                    <Json>
                         {
-                            "sourcedId": "score.app_id",
+                            "sourcedId": "score.id.producer_id",
                             "status": ""active"",
-                            "dateLastModified": "score.submitted_date",
+                            "dateLastModified": "score.submitted_at",
                             "lineItem": {
-                                "sourcedId": "section.section_source_id",
+                                "sourcedId": "section.id.source_id",
                                 "type": ""lineItem""
                             },
                             "student": {
-                                "sourcedId": "score.student_source_id",
+                                "sourcedId": "score.student.source_id",
                                 "type" ""user"",
                             },
                             "score": "score.score",
                             "scoreStatus": "",
-                            "scoreDate": "score.submitted_date",
-                            "comment": "score.comments[0]"
+                            "scoreDate": "score.submitted_at",
+                            "comment": "score.comments"
+                        }   
+                -->
+                <Transform From='GradesScoreSubmission.1x'>
+                    <Json>
+                        {
+                            "sourcedId": "score.id.producer_id",
+                            "status": ""active"",
+                            "dateLastModified": "score.submitted_at",
+                            "lineItem": {
+                                "sourcedId": "section.id.source_id",
+                                "type": ""lineItem""
+                            },
+                            "student": {
+                                "sourcedId": "score.student.source_id",
+                                "type" ""user"",
+                            },
+                            "score": "score.score",
+                            "scoreStatus": "",
+                            "scoreDate": "score.submitted_at",
+                            "comment": "score.comments"
                         }                    
                     </Json>
                 </Transform>
