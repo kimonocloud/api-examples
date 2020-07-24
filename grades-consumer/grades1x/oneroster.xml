@@ -261,6 +261,7 @@
         -->
         <Object Name='AppScore'>
             <Schema>
+                <JsonSchema>
                 {
                     "title": "AppScore",
                     "description": "OneRoster Result",
@@ -292,6 +293,7 @@
                         }
                     }
                 }
+                </JsonSchema>
             </Schema>
 
             <Transforms>
