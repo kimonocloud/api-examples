@@ -2,7 +2,7 @@
     Example of a Generic Grades Consumer API Blueprint that can be used with OneRoster 1.1 
 -->
 
-<ApiBlueprint Name='oneroster' Version='0.9.1' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster' Version='0.9.2' SchemaVersion='1.0.0'>
 
     <Definitions>
     
@@ -102,7 +102,7 @@
         
             <Transforms>
                 <!--
-                    How to transform from a Grades 1.1 GradesCategory to a OneRoster 1.1 Line Item Category
+                    How to transform to a Grades 1.1 GradesCategory from a OneRoster 1.1 Line Item Category
                     NOTE: Grades 1.x requires a value for the school.consumer_id, section.consumer_id, 
                     and term.consumer_id. Since these relationships are not defined in OneRoster, we 
                     set them all to an asterisk (any value will do).
@@ -124,7 +124,7 @@
                     }
 
                 -->
-                <Transform From='GradesCategory.v1'>
+                <Transform To='GradesCategory.v1'>
                     <Json>
                     {
                         "id": {
@@ -206,22 +206,22 @@
 
                     {
                         "sourcedId": "id.producer_id",
-                        "status": ""active"",
+                        "status": "`active`",
                         "dateLastModified": "created_at",
                         "title": "label",
                         "assignDate": "available_at",
                         "dueDate": "due_at",
                         "category": {
                             "sourcedId": "category.consumer_id",
-                            "type": ""category""
+                            "type": "`category`
                         },
                         "class": {
                             "sourcedId": "section.source_id",
-                            "type": ""class""
+                            "type": "`class`"
                         },
                         "gradingPeriod": {
                             "sourcedId": "term.source_id",
-                            "type": ""academicSession""
+                            "type": "`academicSession`"
                         },
                         "resultValueMin": 0.0,
                         "resultValueMax": "points_possible"
@@ -231,22 +231,22 @@
                     <Json>
                         {
                             "sourcedId": "id.producer_id",
-                            "status": ""active"",
+                            "status": "`active`",
                             "dateLastModified": "created_at",
                             "title": "label",
                             "assignDate": "available_at",
                             "dueDate": "due_at",
                             "category": {
                                 "sourcedId": "category.consumer_id",
-                                "type": ""category""
+                                "type": "`category`"
                             },
                             "class": {
                                 "sourcedId": "section.source_id",
-                                "type": ""class""
+                                "type": "`class`"
                             },
                             "gradingPeriod": {
                                 "sourcedId": "term.source_id",
-                                "type": ""academicSession""
+                                "type": "`academicSession`"
                             },
                             "resultValueMin": 0.0,
                             "resultValueMax": "points_possible"
@@ -305,15 +305,15 @@
 
                         {
                             "sourcedId": "score.id.producer_id",
-                            "status": ""active"",
+                            "status": "`active`",
                             "dateLastModified": "score.submitted_at",
                             "lineItem": {
                                 "sourcedId": "section.id.source_id",
-                                "type": ""lineItem""
+                                "type": "`lineItem`"
                             },
                             "student": {
                                 "sourcedId": "score.student.source_id",
-                                "type" ""user"",
+                                "type" "`user`",
                             },
                             "score": "score.score",
                             "scoreStatus": "",
@@ -325,15 +325,15 @@
                     <Json>
                         {
                             "sourcedId": "score.id.producer_id",
-                            "status": ""active"",
+                            "status": "`active`",
                             "dateLastModified": "score.submitted_at",
                             "lineItem": {
                                 "sourcedId": "section.id.source_id",
-                                "type": ""lineItem""
+                                "type": "`lineItem`"
                             },
                             "student": {
                                 "sourcedId": "score.student.source_id",
-                                "type" ""user"",
+                                "type" "`user`",
                             },
                             "score": "score.score",
                             "scoreStatus": "",
