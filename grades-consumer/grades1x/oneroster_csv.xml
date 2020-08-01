@@ -7,7 +7,7 @@
     files in pairs.
 -->
 
-<ApiBlueprint Name='oneroster_csv' Version='0.9.2' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster_csv' Version='0.9.3' SchemaVersion='1.0.0'>
 
     <Schema>
         <JsonSchema>
@@ -329,7 +329,7 @@
 
         <Routine Id='CreateAssignment'>
             <Write>
-                <File>LineItems-{{$request.exchange.id}}.csv</Method>
+                <File>LineItems-{{$request.exchange.id}}.csv</File>
             </Write>
 
             <!-- 
@@ -367,7 +367,7 @@
 
         <Routine Id='PostScores'>
             <Write>
-                <File>Scores-{{$request.exchange.id}}.csv</Method>
+                <File>Scores-{{$request.exchange.id}}.csv</File>
             </Write>
         </Routine>
 
