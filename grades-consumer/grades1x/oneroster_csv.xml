@@ -7,7 +7,7 @@
     files in pairs.
 -->
 
-<ApiBlueprint Name='oneroster_csv' Version='0.9.3' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster_csv' Version='0.9.4' SchemaVersion='1.0.0'>
 
     <Schema>
         <JsonSchema>
@@ -74,13 +74,13 @@
                         },
                         "title": "title",
                         "school": {
-                            "consumer_id": "*"
+                            "consumer_id": ""
                         },
                         "section": {
-                            "consumer_id": "*"
+                            "consumer_id": ""
                         },
                         "term": {
-                            "consumer_id": "*"
+                            "consumer_id": ""
                         }
                     }
 
@@ -93,13 +93,13 @@
                         },
                         "title": "title",
                         "school": {
-                            "consumer_id": "*"
+                            "consumer_id": ""
                         },
                         "section": {
-                            "consumer_id": "*"
+                            "consumer_id": ""
                         },
                         "term": {
-                            "consumer_id": "*"
+                            "consumer_id": ""
                         }
                     }
                     </JsonPath>
