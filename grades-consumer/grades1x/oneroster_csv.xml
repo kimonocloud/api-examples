@@ -7,7 +7,7 @@
     files in pairs.
 -->
 
-<ApiBlueprint Name='oneroster_csv' Version='0.9.4' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster_csv' Version='0.9.6' SchemaVersion='1.0.0'>
 
     <Schema>
         <JsonSchema>
@@ -66,7 +66,7 @@
                     How to transform to a Grades 1.1 GradesCategory from a OneRoster 1.1 Line Item Category
                     NOTE: Grades 1.x requires a value for the school.consumer_id, section.consumer_id, 
                     and term.consumer_id. Since these relationships are not defined in OneRoster, we 
-                    set them all to an asterisk (any value will do).
+                    would need to assign these values using custom meta values.
 
                     {
                         "id": {
@@ -74,13 +74,13 @@
                         },
                         "title": "title",
                         "school": {
-                            "consumer_id": ""
+                            "consumer_id": "meta.school_grades_source_id"
                         },
                         "section": {
-                            "consumer_id": ""
+                            "consumer_id": "meta.section_grades_source_id"
                         },
                         "term": {
-                            "consumer_id": ""
+                            "consumer_id": "meta.term_grades_source_id"
                         }
                     }
 
@@ -93,13 +93,13 @@
                         },
                         "title": "title",
                         "school": {
-                            "consumer_id": ""
+                            "consumer_id": "school_grades_source_id"
                         },
                         "section": {
-                            "consumer_id": ""
+                            "consumer_id": "section_grades_source_id"
                         },
                         "term": {
-                            "consumer_id": ""
+                            "consumer_id": "term_grades_source_id"
                         }
                     }
                     </JsonPath>
@@ -274,7 +274,7 @@
                             },
                             "student": {
                                 "sourcedId": "score.student.source_id",
-                                "type" "`user`",
+                                "type": "`user`"
                             },
                             "score": "score.score",
                             "scoreStatus": "",
@@ -294,7 +294,7 @@
                             },
                             "student": {
                                 "sourcedId": "score.student.source_id",
-                                "type" "`user`",
+                                "type": "`user`"
                             },
                             "score": "score.score",
                             "scoreStatus": "",

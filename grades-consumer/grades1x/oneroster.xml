@@ -2,7 +2,7 @@
     Example of a Generic Grades Consumer API Blueprint that can be used with OneRoster 1.1 
 -->
 
-<ApiBlueprint Name='oneroster' Version='0.9.2' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster' Version='0.9.5' SchemaVersion='1.0.0'>
 
     <Definitions>
     
@@ -313,7 +313,7 @@
                             },
                             "student": {
                                 "sourcedId": "score.student.source_id",
-                                "type" "`user`",
+                                "type": "`user`"
                             },
                             "score": "score.score",
                             "scoreStatus": "",
@@ -333,7 +333,7 @@
                             },
                             "student": {
                                 "sourcedId": "score.student.source_id",
-                                "type" "`user`",
+                                "type": "`user`"
                             },
                             "score": "score.score",
                             "scoreStatus": "",
