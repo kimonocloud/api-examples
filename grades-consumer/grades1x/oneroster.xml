@@ -2,7 +2,7 @@
     Example of a Generic Grades Consumer API Blueprint that can be used with OneRoster 1.1 
 -->
 
-<ApiBlueprint Name='oneroster' Version='0.9.6' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster' Version='0.9.7' SchemaVersion='1.0.0'>
 
     <Definitions>
     
