@@ -7,7 +7,7 @@
     files in pairs.
 -->
 
-<ApiBlueprint Name='oneroster_csv' Version='0.9.6' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster_csv' Version='0.9.7' SchemaVersion='1.0.0'>
 
     <Schema>
         <JsonSchema>
@@ -166,49 +166,31 @@
                     and consult the Grades Producer to see what data it provides.
 
                     {
-                        "sourcedId": "id.producer_id",
-                        "status": "`active`",
-                        "dateLastModified": "created_at",
-                        "title": "label",
-                        "assignDate": "available_at",
-                        "dueDate": "due_at",
-                        "category": {
-                            "sourcedId": "category.consumer_id",
-                            "type": "`category`
-                        },
-                        "class": {
-                            "sourcedId": "section.source_id",
-                            "type": "`class`"
-                        },
-                        "gradingPeriod": {
-                            "sourcedId": "term.source_id",
-                            "type": "`academicSession`"
-                        },
-                        "resultValueMin": 0.0,
-                        "resultValueMax": "points_possible"
-                    }
-                -->
-                <Transform From='GradesAssignment.1x'>
-                    <JsonPath>
-                        {
                             "sourcedId": "id.producer_id",
                             "status": "`active`",
                             "dateLastModified": "created_at",
                             "title": "label",
                             "assignDate": "available_at",
                             "dueDate": "due_at",
-                            "category": {
-                                "sourcedId": "category.consumer_id",
-                                "type": "`category`"
-                            },
-                            "class": {
-                                "sourcedId": "section.source_id",
-                                "type": "`class`"
-                            },
-                            "gradingPeriod": {
-                                "sourcedId": "term.source_id",
-                                "type": "`academicSession`"
-                            },
+                            "categorySourcedId": "category.consumer_id",
+                            "classSourcedId": "section.source_id",
+                            "gradingPeriodSourcedId": "term.source_id",
+                            "resultValueMin": 0.0,
+                            "resultValueMax": "points_possible"
+                    }
+                -->
+                <Transform From='GradesSubmission.v1'>
+                    <JsonPath>
+                        {
+                            "sourcedId": "assignment.id.producer_id",
+                            "status": "`active`",
+                            "dateLastModified": "assignment.created_at",
+                            "title": "assignment.label",
+                            "assignDate": "assignment.available_at",
+                            "dueDate": "assignment.due_at",
+                            "categorySourcedId": "assignment.category.consumer_id",
+                            "classSourcedId": "section.source_id",
+                            "gradingPeriodSourcedId": "section.term.source_id",
                             "resultValueMin": 0.0,
                             "resultValueMax": "points_possible"
                         }
@@ -268,36 +250,24 @@
                             "sourcedId": "score.id.producer_id",
                             "status": "`active`",
                             "dateLastModified": "score.submitted_at",
-                            "lineItem": {
-                                "sourcedId": "section.id.source_id",
-                                "type": "`lineItem`"
-                            },
-                            "student": {
-                                "sourcedId": "score.student.source_id",
-                                "type": "`user`"
-                            },
+                            "lineItemSourcedId": "section.id.source_id",
+                            "studentSourcedId": "score.student.source_id",
                             "score": "score.score",
-                            "scoreStatus": "",
+                            "scoreStatus": "`fully graded`",
                             "scoreDate": "score.submitted_at",
                             "comment": "score.comments"
                         }   
                 -->
-                <Transform From='GradesScoreSubmission.1x'>
+                <Transform From='GradesScoreSubmission.v1'>
                     <JsonPath>
                         {
                             "sourcedId": "score.id.producer_id",
                             "status": "`active`",
                             "dateLastModified": "score.submitted_at",
-                            "lineItem": {
-                                "sourcedId": "section.id.source_id",
-                                "type": "`lineItem`"
-                            },
-                            "student": {
-                                "sourcedId": "score.student.source_id",
-                                "type": "`user`"
-                            },
+                            "lineItemSourcedId": "section.id.source_id",
+                            "studentSourcedId": "score.student.source_id",
                             "score": "score.score",
-                            "scoreStatus": "",
+                            "scoreStatus": "`fully graded`",
                             "scoreDate": "score.submitted_at",
                             "comment": "score.comments"
                         }                    
@@ -329,7 +299,7 @@
 
         <Routine Id='CreateAssignment'>
             <Write>
-                <File>LineItems-{{$request.exchange.id}}.csv</File>
+                <File>LineItems-{{$exchange.id}}.csv</File>
             </Write>
 
             <!-- 
@@ -367,7 +337,7 @@
 
         <Routine Id='PostScores'>
             <Write>
-                <File>Scores-{{$request.exchange.id}}.csv</File>
+                <File>Results-{{$exchange.id}}.csv</File>
             </Write>
         </Routine>
 

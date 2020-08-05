@@ -2,7 +2,7 @@
     Example of a Generic Grades Consumer API Blueprint that can be used with OneRoster 1.1 
 -->
 
-<ApiBlueprint Name='oneroster' Version='0.9.5' SchemaVersion='1.0.0'>
+<ApiBlueprint Name='oneroster' Version='0.9.6' SchemaVersion='1.0.0'>
 
     <Definitions>
     
@@ -227,7 +227,7 @@
                         "resultValueMax": "points_possible"
                     }
                 -->
-                <Transform From='GradesAssignment.1x'>
+                <Transform From='GradesSubmission.v1'>
                     <Json>
                         {
                             "sourcedId": "id.producer_id",
@@ -321,7 +321,7 @@
                             "comment": "score.comments"
                         }   
                 -->
-                <Transform From='GradesScoreSubmission.1x'>
+                <Transform From='GradesScoreSubmission.v1'>
                     <Json>
                         {
                             "sourcedId": "score.id.producer_id",
@@ -336,7 +336,7 @@
                                 "type": "`user`"
                             },
                             "score": "score.score",
-                            "scoreStatus": "",
+                            "scoreStatus": "`fully graded`",
                             "scoreDate": "score.submitted_at",
                             "comment": "score.comments"
                         }                    
@@ -356,7 +356,7 @@
 
         <Routine Id='QueryCategories'>
             <List>
-                <Url>{{$props.url}}/categories</Url>
+                <Url>{{$tenant.url}}/categories</Url>
                 <Headers Id='JsonRequest'/>
                 <Pagination Id='OneRosterPaging'/>
                 <Response Id='OneRosterResponse'/>
@@ -381,7 +381,7 @@
         <Routine Id='CreateAssignment'>
             <Create>
                 <Method>put</Method>
-                <Url>{{$props.url}}/lineItems/$($request.data.sourcedId)</Url>
+                <Url>{{$tenant.url}}/lineItems/$($request.data.sourcedId)</Url>
                 <Response Key='data'>
                     <!-- Expect response: { "lineItem": { ... } } -->
                     <JsonPath>$['lineItem']</JsonPath>
@@ -404,8 +404,8 @@
                 TODO: Determine if the metadata is a requirement of Grades 2
             -->
             <Identifiers>
-                <AppId>$.$response.data.sourcedId</AppId>
-                <Meta Key='section_id'>$.$response.data.class.sourcedId</Meta>
+                <AppId>$response.data.sourcedId</AppId>
+                <Meta Key='section_id'>$response.data.class.sourcedId</Meta>
             </Identifiers>
         </Routine>
 
@@ -418,7 +418,7 @@
         <Routine Id='UpdateAssignment'>
             <Update>
                 <Method>put</Method>
-                <Url>{{$props.url}}/lineItems/{{$request.data.sourcedId}}</Url>
+                <Url>{{$tenant.url}}/lineItems/{{$request.data.sourcedId}}</Url>
             </Update>
         </Routine>
 
@@ -439,7 +439,7 @@
         <Routine Id='PostGrade'>
             <Create>
                 <Method>put</Method>
-                <Url>{{$props.url}}/results/{{$request.data.score.source_id}}</Url>
+                <Url>{{$tenant.url}}/results/{{$request.data.score.source_id}}</Url>
             </Create>
         </Routine>
 
