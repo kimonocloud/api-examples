@@ -125,7 +125,7 @@
 
                 -->
                 <Transform To='GradesCategory.v1'>
-                    <Json>
+                    <JsonPath>
                     {
                         "id": {
                             "consumer_id": "sourcedId"
@@ -141,7 +141,7 @@
                             "consumer_id": "*"
                         }
                     }
-                    </Json>
+                    </JsonPath>
                 </Transform>
             </Transforms>
         </Object>
@@ -228,7 +228,7 @@
                     }
                 -->
                 <Transform From='GradesSubmission.v1'>
-                    <Json>
+                    <JsonPath>
                         {
                             "sourcedId": "id.producer_id",
                             "status": "`active`",
@@ -251,7 +251,7 @@
                             "resultValueMin": 0.0,
                             "resultValueMax": "points_possible"
                         }
-                    </Json>
+                    </JsonPath>
                 </Transform>
             </Transforms>
         </Object>
@@ -322,7 +322,7 @@
                         }   
                 -->
                 <Transform From='GradesScoreSubmission.v1'>
-                    <Json>
+                    <JsonPath>
                         {
                             "sourcedId": "score.id.producer_id",
                             "status": "`active`",
@@ -340,7 +340,7 @@
                             "scoreDate": "score.submitted_at",
                             "comment": "score.comments"
                         }                    
-                    </Json>
+                    </JsonPath>
                 </Transform>
             </Transforms>
         </Object>        
