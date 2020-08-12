@@ -1,0 +1,168 @@
+<!--
+    API Blueprint examples
+-->
+
+<ApiBlueprint Name='simple_examples' Version='0.9.1' SchemaVersion='1.0.0'>
+
+    <Routines>
+
+        <!--
+            Use with inputs:
+            {
+            }
+        -->
+        <Routine Id='SimpleGet'>
+            <Call>
+                <Method>get</Method>
+                <Url>{{$tenant.url}}</Url>
+            </Call>
+        </Routine>
+
+        <!--
+            Use with inputs:
+            {
+            }
+        -->
+        <Routine Id='SimpleGetWithTransforms'>
+            <Call>
+                <!-- This is an example of an inline Headers element -->
+                <Headers>
+                    <Header Name='Content-Type'>application/json</Header>
+                    <Header Name='Accept'>application/json</Header>
+                </Headers>
+
+                <!-- Call thecolorapi.com to get some color info...-->
+                <Method>get</Method>
+                <Url>http://www.thecolorapi.com/id?hex=24B1E0</Url>
+
+                <!-- 
+                    Apply two transformations to the response entity. The first <Json>
+                    transform assigns the value of the rgb.fraction object to 
+                    Context.$response.data.rgb, while the second <JsonPath> transform
+                    selects the color's name from the name.value object and assigns
+                    that to the Context.$response.color key.
+                -->
+                <Response Key='data'>
+                    <Json>{ "rgb": "rgb.fraction" }</Json>
+                </Response>
+                <Response Key='color'>
+                    <JsonPath>$.name.value</JsonPath>
+                </Response>
+            </Call>
+        </Routine>
+
+        <!--
+            Use with inputs:
+            {
+                "request": [
+                    {"id": 1},
+                    {"id": 2},
+                    {"id": 3},
+                    {"id": 4},
+                    {"id": 5},
+                    {"id": 6},
+                    {"id": 7},
+                    {"id": 8},
+                    {"id": 9},
+                    {"id": 10}
+                ]
+            }
+        -->
+        <Routine Id='BatchCreate'>
+            <!--
+                Because it is not explicitly enclosed in a Batch or ForEach grouping,
+                this Create is automatically grouped into a Batch with the system default
+                batch size. The Context.$request.data array will be sent to it in batches
+                of that size.
+            -->
+            <Create>
+                <Url>{{$tenant.url}}?id=BatchCreate</Url>
+            </Create>
+        </Routine>
+
+        <!--
+            Use with inputs:
+            {
+                "request": [
+                    {"id": 1},
+                    {"id": 2},
+                    {"id": 3},
+                    {"id": 4},
+                    {"id": 5},
+                    {"id": 6},
+                    {"id": 7},
+                    {"id": 8},
+                    {"id": 9},
+                    {"id": 10}
+                ]
+            }
+        -->
+        <Routine Id='CustomBatchCreate'>
+            <!--
+                This Create is enclosed in a Batch grouping with a batch size of 5, so it
+                should be called twice, once for the first 5 objects and again for the
+                remaining 5 objects.
+            -->
+            <Batch Size="5">
+                <Create>
+                    <Url>{{$tenant.url}}?id=CustomBatchCreate</Url>
+                </Create>
+            </Batch>
+        </Routine>
+
+        <!--
+            Use with inputs:
+            {
+                "request": [
+                    {"id": 1},
+                    {"id": 2}
+                ]
+            }
+        -->
+        <Routine Id='ForEachCreate'>
+            <!--
+                This Create is enclosed in a ForEach grouping, which iterates the group
+                of operations once per object. Unlike Batch groupings, ForEach presents
+                each element of the array to Contrext.$request.data as a single object
+                rather than an array.
+            -->
+            <ForEach>
+                <Create>
+                    <Url>{{$tenant.url}}?id=ForEachCreate</Url>
+                </Create>
+            </ForEach>
+        </Routine>        
+
+        <!--
+            Use with inputs:
+            {
+                "request": [
+                    {"id": 1},
+                    {"id": 2}
+                ]
+            }
+        -->
+        <Routine Id='ForEachCreateWithTransform'>
+            <!--
+                This Create is enclosed in a ForEach grouping, which is the same as a
+                Batch with a batch size of 1, so it should be called repeatedly with a
+                single object array. For convenience, requests for batches of a single
+                element are presented to the Context.$request.data as an object instead 
+                of an array.
+
+                This example adds a Json transform to place that object in a structure
+                like so: { "records": [ {"id": 1} ] }
+            -->
+            <ForEach>
+                <Create>
+                    <Url>{{$tenant.url}}?id=ForEachCreateWithTransform</Url>
+                    <Request>
+                        <Json>{ "records": ["$"] }</Json>
+                    </Request>
+                </Create>
+            </ForEach>
+        </Routine>        
+    </Routines>
+
+
+</ApiBlueprint>
