@@ -1,0 +1,5 @@
+csv_source_id,csv_section_source_id,csv_person_source_id,csv_person_type,csv_start,csv_end,csv_school_year
+SNR001,SCT001,TCH001,Teacher,2021-01-01,2021-12-31,2021
+SNR002,SCT001,STU001,Student,2021-01-01,2021-12-31,2021
+SNR003,SCT001,TCH002,Teacher,2021-01-01,2021-12-31,2021
+SNR004,SCT001,STU002,Student,2021-01-01,2021-12-31,2021
