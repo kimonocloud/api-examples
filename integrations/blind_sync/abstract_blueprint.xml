@@ -1,0 +1,148 @@
+<!-- 	
+	this integration blueprint should generate tasks for ALL objects
+ -->
+<Blueprint Id='AbstractBlueprint' SchemaVersion='2.0.0' Version='2.0.0'>
+	<Integration>
+		<Title>AbstractBlueprint</Title>
+		<IdSpace>abstract</IdSpace>
+		<Compatibility>
+			<DataModel Schema="RDM" Version="2.*"/>
+		</Compatibility>
+	</Integration>
+	<Objects>
+		<Org>
+			<Roles>
+				<Subscriber/>
+			</Roles>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+				<!-- 
+					The following rollups are also available but are not enabled by default.
+					This speeds up the performance of your Integration. The Orgs in which a
+					Student or Teacher is a member of can be determined from the Student.$orgs
+					and Teacher.$orgs rollups. If you need "both sides" of the person/org
+					membership relationship, uncomment one or both of these attributes.
+				
+				<Attribute Name='$teachers'/>
+				<Attribute Name='$students'/> -->
+			</Attributes>
+		</Org>
+		<Person>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+			<Attributes>
+				<!-- Enable the PersonOrgMembership rollup. See the note at PersonOrgMembership below. -->
+				<!-- <Attribute Name='$schools'/> -->
+				<!-- Enable the PersonSectionMembership rollup. See the note at PersonSectionMembership below. -->
+				<!-- <Attribute Name='$sections'/> -->
+        <!-- Enable the PersonContactRelationship rollup -->
+        <!-- <Attribute Name='$contacts'/> -->
+				<Attribute Name='local_id'/>
+				<Attribute Name='state_id'/>
+				<Attribute Name='name'/>
+				<Attribute Name='address'/>
+				<Attribute Name='phone'/>
+				<Attribute Name='email'/>
+				<Attribute Name='sex'/>
+				<Attribute Name='dob'/>
+				<Attribute Name='aup'/>
+				<Attribute Name='grad_year'/>
+
+			</Attributes>
+		</Person>
+    <PersonContactRelationship>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" />  -->
+			</Roles>
+			<Attributes>
+        <!-- Example mappings how to access a $contact and $person on the relationship -->
+				<!-- <Attribute Name='contact_first_name'>
+					<Mapping Type="json">$contact.name.first</Mapping>
+				</Attribute>
+        <Attribute Name='person_first_name'>
+					<Mapping Type="json">$person.name.first</Mapping>
+				</Attribute> -->
+				<Attribute Name='$person'/>
+				<Attribute Name='$contact'/>
+			</Attributes>
+		</PersonContactRelationship>
+		<PersonOrgEnrollment>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+		</PersonOrgEnrollment>
+		<Course>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='title'/>
+				<Attribute Name='description'/>
+			</Attributes>
+		</Course>
+		<CourseSection>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+			<Attributes>
+				<Attribute Name='local_id'/>
+				<Attribute Name='title'/>
+				<Attribute Name='description'/>
+				<Attribute Name='$terms'/>
+				<Attribute Name='$course'/>
+				<Attribute Name='$org'/>
+				<!-- 
+					The following rollups are also available but are not enabled by default.
+					This speeds up the performance of your Integration. The Sections in which a
+					Student or Teacher is a member of can be determined from the Student.$sections
+					and Teacher.$sections rollups. If you need "both sides" of the person/section 
+					membership relationship, uncomment one or both of these attributes.
+				-->
+				<!-- <Attribute Name='$teachers'/> -->
+				<!-- <Attribute Name='$students'/>-->
+			</Attributes>
+		</CourseSection>
+		<Term>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+			<Attributes>
+				<Attribute Name='name'/>
+				<Attribute Name='description'/>
+				<Attribute Name='start_date'/>
+				<Attribute Name='end_date'/>
+				<Attribute Name='status'/>
+				<Attribute Name='$parent'/>
+				<Attribute Name='$children'/>
+			</Attributes>
+		</Term>
+		<PersonCourseSectionEnrollment>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+		</PersonCourseSectionEnrollment>
+		<GradingCategory>
+			<Roles>
+				<Subscriber/>
+				<!-- <Consumer Support="Disabled" /> -->
+			</Roles>
+				<Attributes>
+				<Attribute Name='name'/>
+				<Attribute Name='$section'/>
+				<Attribute Name='$term'/>
+				<Attribute Name='$school'/>
+			</Attributes>
+		</GradingCategory>
+	</Objects>
