@@ -1,7 +1,8 @@
 <!-- 	
-	this integration blueprint should generate tasks for ALL objects
+	this integration blueprint uses only the Abstract Topics in Kimono described
+	here: https://developer.kimonocloud.com/docs/rostering-api-data-model
  -->
-<Blueprint Id='AbstractBlueprint' SchemaVersion='2.0.0' Version='2.0.0'>
+<Blueprint Id='AbstractBlueprint' SchemaVersion='2.0.0' Version='2.0.1'>
 	<Integration>
 		<Title>AbstractBlueprint</Title>
 		<IdSpace>abstract</IdSpace>
@@ -9,7 +10,8 @@
 			<DataModel Schema="RDM" Version="2.*"/>
 		</Compatibility>
 	</Integration>
-	<Objects>
+	<Topics>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#org  -->
 		<Org>
 			<Roles>
 				<Subscriber/>
@@ -30,6 +32,7 @@
 				<Attribute Name='$students'/> -->
 			</Attributes>
 		</Org>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#person -->
 		<Person>
 			<Roles>
 				<Subscriber/>
@@ -55,6 +58,7 @@
 
 			</Attributes>
 		</Person>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#personcontactrelationship -->
     <PersonContactRelationship>
 			<Roles>
 				<Subscriber/>
@@ -72,12 +76,14 @@
 				<Attribute Name='$contact'/>
 			</Attributes>
 		</PersonContactRelationship>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#personorgmembership -->
 		<PersonOrgEnrollment>
 			<Roles>
 				<Subscriber/>
 				<!-- <Consumer Support="Disabled" /> -->
 			</Roles>
 		</PersonOrgEnrollment>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#course -->
 		<Course>
 			<Roles>
 				<Subscriber/>
@@ -89,6 +95,7 @@
 				<Attribute Name='description'/>
 			</Attributes>
 		</Course>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#section -->
 		<CourseSection>
 			<Roles>
 				<Subscriber/>
@@ -112,6 +119,7 @@
 				<!-- <Attribute Name='$students'/>-->
 			</Attributes>
 		</CourseSection>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#term -->
 		<Term>
 			<Roles>
 				<Subscriber/>
@@ -127,12 +135,14 @@
 				<Attribute Name='$children'/>
 			</Attributes>
 		</Term>
+		<!-- https://developer.kimonocloud.com/docs/rostering-api-data-model#personsectionmembership  -->
 		<PersonCourseSectionEnrollment>
 			<Roles>
 				<Subscriber/>
 				<!-- <Consumer Support="Disabled" /> -->
 			</Roles>
 		</PersonCourseSectionEnrollment>
+		<!-- https://developer.kimonocloud.com/docs/grades-api-data-model#gradingcategory -->
 		<GradingCategory>
 			<Roles>
 				<Subscriber/>
@@ -145,4 +155,4 @@
 				<Attribute Name='$school'/>
 			</Attributes>
 		</GradingCategory>
-	</Objects>
+	</Topics>
