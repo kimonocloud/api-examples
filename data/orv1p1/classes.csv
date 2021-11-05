@@ -1,0 +1,4 @@
+sourcedId,status,dateLastModified,title,grades,courseSourcedId,classCode,classType,location,schoolSourcedId,termSourcedIds,subjects,subjectCodes,periods
+cla1,active,,Section A/B,,cou1,c1,,,sch1,"ter1,ter2",,,
+cla2,active,,Study & Learning - Period 1,,cou2,c2,,,sch1,"ter2,ter3",,,
+cla3,active,,Study & Learning - Period 2,,cou2,c3,,,sch1,"ter2,ter3",,,

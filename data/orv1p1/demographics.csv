@@ -1,0 +1,5 @@
+sourcedId,status,dateLastModified,birthDate,sex,americanIndianOrAlaskaNative,asian,blackOrAfricanAmerican,nativeHawaiianOrOtherPacificIslander,white,demographicRaceTwoOrMoreRaces,hispanicOrLatinoEthnicity,countryOfBirthCode,stateOfBirthAbbreviation,cityOfBirth,publicSchoolResidenceStatus
+stu1,,,2010-01-01,Male,false,false,true,false,false,false,false,US,NY,New York,01652
+tea1,,,1995-03-01,Male,false,false,false,false,true,false,false,US,NY,New York,01652
+stu2,,,2010-02-01,Female,true,false,false,false,false,false,false,US,NY,New York,01652
+tea2,,,1995-03-01,Female,false,false,false,true,false,false,false,US,NY,New York,01652
