@@ -1,0 +1,9 @@
+sourcedId,status,dateLastModified,enabledUser,orgSourcedIds,role,username,userIds,givenName,familyName,middleName,identifier,email,sms,phone,agentSourcedIds,grades,password
+gua1,active,,true,sch1,parent,taymuagdd@school1test.com,,Texas,Aymuagdd,C,gua1X1,taymuagdd@school1test.com,,3571592862,stu1,,
+proc1,active,,true,sch1,proctor,pdudette@school1test.com,,Proctor,Dudette,C,proc1X1,pdudette@school1test.com,,3571596541,,,
+stu1,active,,true,sch1,student,student1@gedu.demo.kimonocloud.com,,Student,One,"",stu1X1,student1@gedu.demo.kimonocloud.com,,3571592862,gua1,,
+stu2,active,,true,sch1,student,student2@gedu.demo.kimonocloud.com,,Student,Two,"",stu2X1,student2@gedu.demo.kimonocloud.com,,3571592862,gua1,,
+stu3,active,,true,sch1,student,student3@gedu.demo.kimonocloud.com,,Student,Three,"",stu3X1,student3@gedu.demo.kimonocloud.com,,3571592862,gua1,,
+stu4,active,,true,sch1,student,student4@gedu.demo.kimonocloud.com,,Student,Four,"",stu4X1,student4@gedu.demo.kimonocloud.com,,3571592862,gua1,,
+tea1,active,,true,sch1,teacher,teacher1@gedu.demo.kimonocloud.com,,Teacher,One,"",tea1X1,teacher1@gedu.demo.kimonocloud.com,,3579872864,,,
+tea2,active,,true,sch1,teacher,teacher2@gedu.demo.kimonocloud.com,,Teacher,Two,"",tea2X1,teacher2@gedu.demo.kimonocloud.com,,3579872864,,,

@@ -1,0 +1,3 @@
+sourcedId,status,dateLastModified,name,type,identifier,parentSourcedId
+sch1,active,,The School,school,sch1X1,
+sch2,active,,The Other School,school,sch2X2,
