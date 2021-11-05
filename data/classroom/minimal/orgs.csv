@@ -1,0 +1,4 @@
+sourcedId,name,type,identifier,parentSourcedId
+lea1,The District,district,LEA1
+sch1,The School,school,sch1X1,lea1
+sch2,The Other School,school,sch2X2,lea1

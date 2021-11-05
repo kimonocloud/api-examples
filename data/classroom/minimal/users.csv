@@ -1,0 +1,9 @@
+sourcedId,orgSourcedIds,role,username,givenName,familyName,middleName,email,phone,agentSourcedIds
+gua1,sch1,parent,taymuagdd@school1test.com,Texas,Aymuagdd,C,taymuagdd@school1test.com,3571592862,stu1
+proc1,sch1,proctor,pdudette@school1test.com,Proctor,Dudette,C,pdudette@school1test.com,3571596541,,
+stu1,sch1,student,student1@school1test.com,Student,One,"",student1@school1test.com,3571592862,gua1
+stu2,sch1,student,student2@school1test.com,Student,Two,"",student2@school1test.com,3571592862,gua1
+stu3,sch1,student,student3@school1test.com,Student,Three,"",student3@school1test.com,3571592862,gua1
+stu4,sch1,student,student4@school1test.com,Student,Four,"",student4@school1test.com,3571592862,gua1
+tea1,sch1,teacher,teacher1@school1test.com,Teacher,One,"",teacher1@school1test.com,3579872864,,
+tea2,sch1,teacher,teacher2@school1test.com,Teacher,Two,"",teacher2@school1test.com,3579872864,,

@@ -1,0 +1,4 @@
+sourcedId,title,courseSourcedId,classCode,location,schoolSourcedId,termSourcedIds
+cla1,Section A/B,cou1,c1,,sch1,"ter1,ter2"
+cla2,Study & Learning - Period 1,cou2,c2,,sch1,"ter2,ter3"
+cla3,Study & Learning - Period 2,cou2,c3,,sch1,"ter2,ter3"
